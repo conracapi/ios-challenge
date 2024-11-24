@@ -37,9 +37,8 @@ class AdsListInteractor: AdsListInteractorInputProtocol {
                     guard let presenter = self.presenter else { return }
                     let adsListBO = ads.map { (HomeAdListBO(dto: $0)) }
                     presenter.fetchedAds(adsListBO)
-                case .failure(let _):
+                case .failure:
                     break
-                    // self.presenter?.presentError(.failedToFetchAds)
             }
         }
     }

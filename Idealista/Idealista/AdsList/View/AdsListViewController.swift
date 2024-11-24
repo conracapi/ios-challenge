@@ -25,9 +25,10 @@ class AdsListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     // Vars
-    private var homeAds: [HomeAdListVO] = []
     var presenter: AdsListPresenterProtocol?
-
+    private var homeAds: [HomeAdListVO] = []
+    private let refreshControl: UIRefreshControl = UIRefreshControl()  // pull to refresh
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let presenter else { return }
@@ -43,6 +44,16 @@ class AdsListViewController: UIViewController {
     private func registerAdCell() {
         self.tableView.register(UINib(nibName: AdTableViewCell.name, bundle: nil), forCellReuseIdentifier: AdTableViewCell.name)
     }
+    
+    private func addPullToRefresh() {
+        self.refreshControl.addTarget(self, action: #selector(self.refreshData), for: .valueChanged)
+        self.tableView.addSubview(self.refreshControl)
+    }
+    
+    @objc func refreshData() {
+        guard let presenter = self.presenter else { return }
+        presenter.fetchAllAds()
+    }
 }
 
 extension AdsListViewController: AdsListViewProtocol {
@@ -50,11 +61,15 @@ extension AdsListViewController: AdsListViewProtocol {
     func loadUI() {
         self.setDelegatesTableView()
         self.registerAdCell()
+        self.addPullToRefresh()
     }
     
     func fetchedAds(_ ads: [HomeAdListVO]) {
         self.homeAds = ads
         DispatchQueue.main.async {
+            if self.refreshControl.isRefreshing {
+                self.refreshControl.endRefreshing()
+            }
             self.tableView.reloadData()
         }
     }

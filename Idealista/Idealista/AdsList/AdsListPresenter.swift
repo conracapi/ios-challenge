@@ -16,6 +16,7 @@ protocol AdsListPresenterProtocol: AnyObject {
     var interactor: AdsListInteractorInputProtocol? { get set }
     var wireFrame: AdsListWireFrameProtocol? { get set }
     func viewDidLoad()
+    func fetchAllAds()
 }
 
 // Protocol: Interactor -> Presenter
@@ -34,8 +35,13 @@ class AdsListPresenter  {
 extension AdsListPresenter: AdsListPresenterProtocol {
     
     func viewDidLoad() {
-        guard let view = self.view, let interactor = self.interactor else { return }
+        guard let view = self.view else { return }
         view.loadUI()
+        self.fetchAllAds()
+    }
+    
+    func fetchAllAds() {
+        guard let interactor = self.interactor else { return }
         interactor.fetchAllAds()
     }
     
