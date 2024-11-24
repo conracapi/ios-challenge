@@ -19,7 +19,9 @@ protocol AdsListPresenterProtocol: AnyObject {
 }
 
 // Protocol: Interactor -> Presenter
-protocol AdsListInteractorOutputProtocol: AnyObject { }
+protocol AdsListInteractorOutputProtocol: AnyObject {
+    func fetchedAds(_ ads: [HomeAdListBO])
+}
 
 
 // MARK: - Class
@@ -30,9 +32,21 @@ class AdsListPresenter  {
 }
 
 extension AdsListPresenter: AdsListPresenterProtocol {
-    func viewDidLoad() { }
+    
+    func viewDidLoad() {
+        guard let view = self.view, let interactor = self.interactor else { return }
+        view.loadUI()
+        interactor.fetchAllAds()
+    }
+    
 }
 
 extension AdsListPresenter: AdsListInteractorOutputProtocol {
+    
+    func fetchedAds(_ ads: [HomeAdListBO]) {
+        guard let view else { return }
+        let adsListVO = ads.map { HomeAdListVO(bo: $0) }
+        view.fetchedAds(adsListVO)
+    }
     
 }
