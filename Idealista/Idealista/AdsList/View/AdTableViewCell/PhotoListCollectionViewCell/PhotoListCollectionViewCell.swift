@@ -26,8 +26,8 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: Public functions
-    func load() {
-        self.homeImageView.image = UIImage(systemName: "square.and.arrow.up.circle")
+    func load(url: String?) {
+        self.homeImageView.loadImage(from: url)
     }
     
     // MARK: Private functions

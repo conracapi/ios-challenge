@@ -97,7 +97,7 @@ extension AdTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoListCollectionViewCell.name, for: indexPath)
         guard let photoCell = cell as? PhotoListCollectionViewCell else { return UICollectionViewCell() }
-        photoCell.load()
+        photoCell.load(url: homeAd?.multimedia.images[indexPath.row].url)
         return photoCell
     }
     
