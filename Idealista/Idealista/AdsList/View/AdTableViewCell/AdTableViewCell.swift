@@ -72,18 +72,22 @@ class AdTableViewCell: UITableViewCell {
     }
     
     private func setPropertyType(with propertyType: String) {
+        self.propertyTypeLabel.font = .kohinoorBanglaSemibold(withSize: 16.0)
         self.propertyTypeLabel.text = propertyType
     }
     
     private func setLocation(with district: String, and province: String) {
+        self.locationLabel.font = .kohinoorBanglaRegular(withSize: 14.0)
         self.locationLabel.text = district + ", " + province
     }
     
     private func setPrice(with price: CGFloat, and currency: String) {
+        self.priceLabel.font = .kohinoorBanglaSemibold(withSize: 22.0)
         self.priceLabel.text = "\(price) \(currency)"
     }
     
     private func setExtraInfo() {
+        self.extraInfoLabel.font = .kohinoorBanglaLight(withSize: 14.0)
         self.extraInfoLabel.text = "Información extra de la casa"
     }
 }
