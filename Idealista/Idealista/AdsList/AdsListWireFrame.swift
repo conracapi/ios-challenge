@@ -21,7 +21,7 @@ class AdsListWireFrame: AdsListWireFrameProtocol {
     
     static func createAdsListModule() -> UIViewController {
         // Initializing VIPER module variables
-        let view = AdsListViewController(nibName: "AdsListViewController", bundle: nil)
+        let view = AdsListViewController(nibName: String(describing: AdsListViewController.self), bundle: nil)
         let presenter: AdsListPresenterProtocol & AdsListInteractorOutputProtocol = AdsListPresenter()
         let interactor: AdsListInteractorInputProtocol & AdsListRemoteDataManagerOutputProtocol = AdsListInteractor()
         let localDataManager: AdsListLocalDataManagerInputProtocol = AdsListLocalDataManager()
