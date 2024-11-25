@@ -11,12 +11,12 @@ class AdTableViewCell: UITableViewCell {
     
     // MARK: IBOutlets
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var collectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private weak var propertyTypeLabel: UILabel!
     @IBOutlet private weak var locationLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var extraInfoLabel: UILabel!
     @IBOutlet private weak var mapLocationImageView: UIImageView!
-    @IBOutlet private weak var seeOnMapLabel: UILabel!
     @IBOutlet private weak var mapLocationView: UIView!
     
     // MARK: Vars
@@ -88,7 +88,7 @@ class AdTableViewCell: UITableViewCell {
     }
 }
 
-extension AdTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension AdTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -99,6 +99,10 @@ extension AdTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource 
         guard let photoCell = cell as? PhotoListCollectionViewCell else { return UICollectionViewCell() }
         photoCell.load(url: homeAd?.multimedia.images[indexPath.row].url)
         return photoCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: self.collectionViewHeightConstraint.constant)
     }
     
 }
