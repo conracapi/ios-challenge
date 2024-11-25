@@ -15,10 +15,15 @@ class AdTableViewCell: UITableViewCell {
     @IBOutlet private weak var locationLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var extraInfoLabel: UILabel!
+    @IBOutlet private weak var mapLocationImageView: UIImageView!
+    @IBOutlet private weak var seeOnMapLabel: UILabel!
+    @IBOutlet private weak var mapLocationView: UIView!
     
     // MARK: Vars
-    private var photosAd: [ImageVO] = []
     static let name: String = String(describing: AdTableViewCell.self)
+    weak var delegate: AdTableViewCellProtocol?
+    private var homeAd: HomeAdListVO? = nil
+    private var photosAd: [ImageVO] = []
     
     // MARK: Lifecycle
     override func awakeFromNib() {
@@ -37,11 +42,18 @@ class AdTableViewCell: UITableViewCell {
     
     // MARK: Public functions
     func load(homeAd: HomeAdListVO) {
+        self.homeAd = homeAd
         self.setPhotos(homeAd.multimedia.images)
         self.setPropertyType(with: homeAd.propertyType)
         self.setLocation(with: homeAd.district, and: homeAd.province)
         self.setPrice(with: homeAd.priceInfo.price.amount, and: homeAd.priceInfo.price.currencySuffix)
         self.setExtraInfo()
+    }
+    
+    // MARK: IBActions
+    @IBAction private func seeOnMapAction(_ sender: Any) {
+        guard let delegate = self.delegate, let homeAd = self.homeAd else { return }
+        delegate.navigateToMapLocation(latitude: homeAd.latitude, longitude: homeAd.longitude)
     }
     
     // MARK: Private functions

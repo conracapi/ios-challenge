@@ -17,6 +17,11 @@ protocol AdsListViewProtocol: AnyObject {
     func fetchedAds(_ ads: [HomeAdListVO])
 }
 
+// Protocol: AdTableViewCell -> View
+protocol AdTableViewCellProtocol: AnyObject {
+    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat)
+}
+
 
 // MARK: - Class
 class AdsListViewController: UIViewController {
@@ -89,12 +94,26 @@ extension AdsListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: AdTableViewCell.name, for: indexPath)
         guard let adCell = cell as? AdTableViewCell else { return UITableViewCell() }
+        adCell.delegate = self
         adCell.load(homeAd: self.homeAds[indexPath.row])
         return adCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Hay que navegar al detalle del anuncio \(indexPath.row)")
+    }
+    
+}
+
+extension AdsListViewController: AdTableViewCellProtocol {
+    
+    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat) {
+        if let navController = self.navigationController {
+            guard let mapLocationView = MapLocationWireFrame.createMapLocationModule() as? MapLocationViewController else { return }
+            mapLocationView.latitude = latitude
+            mapLocationView.longitude = longitude
+            navController.pushViewController(mapLocationView, animated: true)
+        }
     }
     
 }
