@@ -100,7 +100,8 @@ extension AdsListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Hay que navegar al detalle del anuncio \(indexPath.row)")
+        let adDetailViewController = AdDetailWireFrame.createAdDetailModule()
+        self.navigationController?.pushViewController(adDetailViewController, animated: true)
     }
     
 }
