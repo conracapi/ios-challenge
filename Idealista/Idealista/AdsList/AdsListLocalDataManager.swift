@@ -20,8 +20,11 @@ protocol AdsListLocalDataManagerInputProtocol: AnyObject {
 class AdsListLocalDataManager:AdsListLocalDataManagerInputProtocol {
     
     func saveFavoriteAd(_ ad: HomeAdListVO) {
-        print("¡¡Hola!!")
-        print("¡¡\(ad.district)!!")
+        CoreDataManager.shared.saveAd(title: ad.propertyType, description: ad.description)
+        let ads = CoreDataManager.shared.fetchAds()
+        ads.forEach { ad in
+            print(ad.titleAd ?? "Sin título")
+        }
     }
     
 }

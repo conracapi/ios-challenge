@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0BA8633E2CF7129A002A324F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BA8633D2CF7129A002A324F /* CoreData.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		0B655B492CF093ED003F88D5 /* Idealista.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Idealista.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BA8633D2CF7129A002A324F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BA8633E2CF7129A002A324F /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				0B655B4B2CF093ED003F88D5 /* Idealista */,
+				0BA8633C2CF7129A002A324F /* Frameworks */,
 				0B655B4A2CF093ED003F88D5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +63,14 @@
 				0B655B492CF093ED003F88D5 /* Idealista.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0BA8633C2CF7129A002A324F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0BA8633D2CF7129A002A324F /* CoreData.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
