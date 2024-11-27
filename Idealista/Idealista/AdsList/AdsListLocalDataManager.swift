@@ -11,10 +11,17 @@ import Foundation
 
 // MARK: - Protocols
 // protocol: Interactor -> LocalDataManager
-protocol AdsListLocalDataManagerInputProtocol: AnyObject { }
+protocol AdsListLocalDataManagerInputProtocol: AnyObject {
+    func saveFavoriteAd(_ ad: HomeAdListVO)
+}
 
 
 // MARK: - Class
 class AdsListLocalDataManager:AdsListLocalDataManagerInputProtocol {
+    
+    func saveFavoriteAd(_ ad: HomeAdListVO) {
+        print("¡¡Hola!!")
+        print("¡¡\(ad.district)!!")
+    }
     
 }

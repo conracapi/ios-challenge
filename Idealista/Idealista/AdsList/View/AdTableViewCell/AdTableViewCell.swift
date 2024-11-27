@@ -18,6 +18,11 @@ class AdTableViewCell: UITableViewCell {
     @IBOutlet private weak var extraInfoLabel: UILabel!
     @IBOutlet private weak var mapLocationImageView: UIImageView!
     @IBOutlet private weak var mapLocationView: UIView!
+    @IBOutlet private weak var infoView: UIView!
+    @IBOutlet private weak var topConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var favoriteAdView: UIView!
+    @IBOutlet weak var favoriteAdImageView: UIImageView!
     
     // MARK: Vars
     static let name: String = String(describing: AdTableViewCell.self)
@@ -41,8 +46,9 @@ class AdTableViewCell: UITableViewCell {
     }
     
     // MARK: Public functions
-    func load(homeAd: HomeAdListVO) {
+    func load(homeAd: HomeAdListVO, _ isFirstCell: Bool, _ isLastCell: Bool) {
         self.homeAd = homeAd
+        self.setStyles(isFirstCell, isLastCell)
         self.setPhotos(homeAd.multimedia.images)
         self.setPropertyType(with: homeAd.propertyType)
         self.setLocation(with: homeAd.district, and: homeAd.province)
@@ -56,6 +62,11 @@ class AdTableViewCell: UITableViewCell {
         delegate.navigateToMapLocation(latitude: homeAd.latitude, longitude: homeAd.longitude)
     }
     
+    @IBAction func saveFavoriteAd(_ sender: Any) {
+        guard let delegate, let homeAd else { return }
+        delegate.saveFavoriteAd(homeAd)
+    }
+    
     // MARK: Private functions
     private func setDelegatesCollectionView() {
         self.collectionView.delegate = self
@@ -64,6 +75,20 @@ class AdTableViewCell: UITableViewCell {
     
     private func registerCell() {
         self.collectionView.register(UINib(nibName: PhotoListCollectionViewCell.name, bundle: nil), forCellWithReuseIdentifier: PhotoListCollectionViewCell.name)
+    }
+    
+    private func setStyles(_ isFirst: Bool, _ isLast: Bool) {
+        self.backgroundColor = .mainBackground
+        self.collectionView.backgroundColor = .adCellBackground
+        self.collectionView.layer.cornerRadius = 10.0
+        self.collectionView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        self.collectionView.layer.masksToBounds = true
+        self.infoView.backgroundColor = .adCellBackground
+        self.infoView.layer.cornerRadius = 10.0
+        self.infoView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        self.infoView.layer.masksToBounds = true
+        self.topConstraint.constant = isFirst ? 0.0 : 10.0
+        self.bottomConstraint.constant = isLast ? 0.0 : 10.0
     }
     
     private func setPhotos(_ photos: [ImageVO]) {

@@ -15,6 +15,7 @@ protocol AdsListInteractorInputProtocol: AnyObject {
     var localDatamanager: AdsListLocalDataManagerInputProtocol? { get set }
     var remoteDatamanager: AdsListRemoteDataManagerInputProtocol? { get set }
     func fetchAllAds()
+    func saveFavoriteAd(_ ad: HomeAdListVO)
 }
 
 // Protocol: RemoteDataManager -> Interactor
@@ -41,6 +42,11 @@ class AdsListInteractor: AdsListInteractorInputProtocol {
                     break
             }
         }
+    }
+    
+    func saveFavoriteAd(_ ad: HomeAdListVO) {
+        guard let localDatamanager else { return }
+        localDatamanager.saveFavoriteAd(ad)
     }
 }
 

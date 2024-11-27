@@ -17,6 +17,7 @@ protocol AdsListPresenterProtocol: AnyObject {
     var wireFrame: AdsListWireFrameProtocol? { get set }
     func viewDidLoad()
     func fetchAllAds()
+    func saveFavoriteAd(_ ad: HomeAdListVO)
 }
 
 // Protocol: Interactor -> Presenter
@@ -43,6 +44,11 @@ extension AdsListPresenter: AdsListPresenterProtocol {
     func fetchAllAds() {
         guard let interactor = self.interactor else { return }
         interactor.fetchAllAds()
+    }
+    
+    func saveFavoriteAd(_ ad: HomeAdListVO) {
+        guard let interactor else { return }
+        interactor.saveFavoriteAd(ad)
     }
     
 }
