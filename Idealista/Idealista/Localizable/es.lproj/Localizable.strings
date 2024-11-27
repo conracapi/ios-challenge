@@ -6,6 +6,6 @@
   
 */
 
-"hello_world" = "¡Hola, Mundo!";
-"login_button" = "Iniciar sesión";
-"welcome_message" = "¡Bienvenido a la App!";
+"rent" = "alquiler";
+"sale" = "venta";
+"flat" = "apartamento";

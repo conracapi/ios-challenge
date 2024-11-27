@@ -6,6 +6,7 @@
   
 */
 
-"hello_world" = "¡Hello world!";
-"login_button" = "Log in";
-"welcome_message" = "¡Welcome!";
+"rent" = "rent";
+"sale" = "sale";
+"flat" = "flat";
+

@@ -15,7 +15,7 @@ protocol AdsListInteractorInputProtocol: AnyObject {
     var localDatamanager: AdsListLocalDataManagerInputProtocol? { get set }
     var remoteDatamanager: AdsListRemoteDataManagerInputProtocol? { get set }
     func fetchAllAds()
-    func saveFavoriteAd(_ ad: HomeAdListVO)
+    func saveFavoriteAd(_ ad: HomeAdListViewModel)
 }
 
 // Protocol: RemoteDataManager -> Interactor
@@ -23,12 +23,15 @@ protocol AdsListRemoteDataManagerOutputProtocol: AnyObject { }
 
 
 // MARK: - Class
+// Protocol: Presenter -> Interactor
 class AdsListInteractor: AdsListInteractorInputProtocol {
     
+    // Protocols vars
     weak var presenter: AdsListInteractorOutputProtocol?
     var localDatamanager: AdsListLocalDataManagerInputProtocol?
     var remoteDatamanager: AdsListRemoteDataManagerInputProtocol?
     
+    // Protocol functions
     func fetchAllAds() {
         guard let remoteDatamanager else { return }
         remoteDatamanager.fetchAllAds { [weak self] result in
@@ -44,12 +47,14 @@ class AdsListInteractor: AdsListInteractorInputProtocol {
         }
     }
     
-    func saveFavoriteAd(_ ad: HomeAdListVO) {
+    func saveFavoriteAd(_ ad: HomeAdListViewModel) {
         guard let localDatamanager else { return }
         localDatamanager.saveFavoriteAd(ad)
     }
 }
 
+
+// Protocol: RemoteDataManager -> Interactor
 extension AdsListInteractor: AdsListRemoteDataManagerOutputProtocol {
     
 }

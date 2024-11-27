@@ -23,10 +23,10 @@ final class CoreDataManager {
     
     // MARK: - CRUD methods of ads list
     /// save a new ad
-    func saveAd(title: String, description: String) {
-        let newAd = AdHomeList(context: self.context)
-        newAd.titleAd = title
-        newAd.descriptionAd = description
+    func saveAd(newAd: HomeAdListViewModel) {
+        let myAd = AdHomeList(context: self.context)
+        myAd.titleAd = newAd.address
+        myAd.descriptionAd = newAd.floor
         self.saveContext()
     }
 

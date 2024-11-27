@@ -13,6 +13,7 @@ import UIKit
 // Protocol: Presenter -> Wireframe
 protocol AdsListWireFrameProtocol: AnyObject {
     static func createAdsListModule() -> UIViewController
+    func navigateToMapLocation(view: AdsListViewProtocol, latitude: CGFloat, longitude: CGFloat)
 }
 
 
@@ -37,6 +38,17 @@ class AdsListWireFrame: AdsListWireFrameProtocol {
         interactor.remoteDatamanager = remoteDataManager
         remoteDataManager.remoteRequestHandler = interactor
         return view
+    }
+    
+    func navigateToMapLocation(view: any AdsListViewProtocol, latitude: CGFloat, longitude: CGFloat) {
+        guard let view = view as? UIViewController,
+              let navController = view.navigationController
+        else { return }
+        let mapLocationModule = MapLocationWireFrame.createMapLocationModule()
+        guard let mapViewController = mapLocationModule as? MapLocationViewController else { return }
+        mapViewController.latitude = latitude
+        mapViewController.longitude = longitude
+        navController.pushViewController(mapViewController, animated: true)
     }
     
 }

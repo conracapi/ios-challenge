@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AdTableViewCell: UITableViewCell {
+final class AdTableViewCell: UITableViewCell {
     
     // MARK: IBOutlets
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -21,13 +21,13 @@ class AdTableViewCell: UITableViewCell {
     @IBOutlet private weak var infoView: UIView!
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
     @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var favoriteAdView: UIView!
-    @IBOutlet weak var favoriteAdImageView: UIImageView!
+    @IBOutlet private weak var favoriteAdView: UIView!
+    @IBOutlet private weak var favoriteAdImageView: UIImageView!
     
     // MARK: Vars
     static let name: String = String(describing: AdTableViewCell.self)
     weak var delegate: AdTableViewCellProtocol?
-    private var homeAd: HomeAdListVO? = nil
+    private var homeAd: HomeAdListViewModel? = nil
     private var photosAd: [ImageVO] = []
     
     // MARK: Lifecycle
@@ -46,23 +46,23 @@ class AdTableViewCell: UITableViewCell {
     }
     
     // MARK: Public functions
-    func load(homeAd: HomeAdListVO, _ isFirstCell: Bool, _ isLastCell: Bool) {
+    func load(homeAd: HomeAdListViewModel) {
         self.homeAd = homeAd
-        self.setStyles(isFirstCell, isLastCell)
+        self.setStyles(homeAd.isFirst, homeAd.isLast)
         self.setPhotos(homeAd.multimedia.images)
-        self.setPropertyType(with: homeAd.propertyType)
+        self.setPropertyType(homeAd)
         self.setLocation(with: homeAd.district, and: homeAd.province)
         self.setPrice(with: homeAd.priceInfo.price.amount, and: homeAd.priceInfo.price.currencySuffix)
         self.setExtraInfo()
     }
     
-    // MARK: IBActions
+    // MARK: IBActions private functions
     @IBAction private func seeOnMapAction(_ sender: Any) {
         guard let delegate = self.delegate, let homeAd = self.homeAd else { return }
-        delegate.navigateToMapLocation(latitude: homeAd.latitude, longitude: homeAd.longitude)
+        delegate.navigateToMapLocation(latitude: homeAd.location.coordinate.latitude, longitude: homeAd.location.coordinate.longitude)
     }
     
-    @IBAction func saveFavoriteAd(_ sender: Any) {
+    @IBAction private func saveFavoriteAd(_ sender: Any) {
         guard let delegate, let homeAd else { return }
         delegate.saveFavoriteAd(homeAd)
     }
@@ -96,13 +96,13 @@ class AdTableViewCell: UITableViewCell {
         self.collectionView.reloadData()
     }
     
-    private func setPropertyType(with propertyType: String) {
+    private func setPropertyType(_ homeAd: HomeAdListViewModel) {
         self.propertyTypeLabel.font = .kohinoorBanglaSemibold(withSize: 16.0)
-        self.propertyTypeLabel.text = propertyType
+        self.propertyTypeLabel.text = homeAd.propertyType
     }
     
     private func setLocation(with district: String, and province: String) {
-        self.locationLabel.font = .kohinoorBanglaRegular(withSize: 14.0)
+        self.locationLabel.font = .kohinoorBanglaRegular(withSize: 15.0)
         self.locationLabel.text = district + ", " + province
     }
     
