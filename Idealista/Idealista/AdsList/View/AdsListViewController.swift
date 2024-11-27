@@ -25,7 +25,7 @@ protocol AdTableViewCellProtocol: AnyObject {
 
 
 // MARK: - Class
-class AdsListViewController: BaseViewController {
+final class AdsListViewController: BaseViewController {
     
     // IBOutlets
     @IBOutlet weak var tableView: UITableView!

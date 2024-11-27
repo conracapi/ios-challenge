@@ -18,7 +18,7 @@ protocol AdsListWireFrameProtocol: AnyObject {
 
 
 // MARK: - Class
-class AdsListWireFrame: AdsListWireFrameProtocol {
+final class AdsListWireFrame: AdsListWireFrameProtocol {
     
     static func createAdsListModule() -> UIViewController {
         // Initializing VIPER module variables

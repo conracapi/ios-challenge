@@ -24,7 +24,7 @@ protocol AdsListRemoteDataManagerOutputProtocol: AnyObject { }
 
 // MARK: - Class
 // Protocol: Presenter -> Interactor
-class AdsListInteractor: AdsListInteractorInputProtocol {
+final class AdsListInteractor: AdsListInteractorInputProtocol {
     
     // Protocols vars
     weak var presenter: AdsListInteractorOutputProtocol?

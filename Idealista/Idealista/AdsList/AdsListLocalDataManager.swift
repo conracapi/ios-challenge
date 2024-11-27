@@ -18,7 +18,7 @@ protocol AdsListLocalDataManagerInputProtocol: AnyObject {
 
 // MARK: - Class
 // protocol: Interactor -> LocalDataManager
-class AdsListLocalDataManager:AdsListLocalDataManagerInputProtocol {
+final class AdsListLocalDataManager:AdsListLocalDataManagerInputProtocol {
     
     func saveFavoriteAd(_ ad: HomeAdListViewModel) {
         CoreDataManager.shared.saveAd(newAd: ad)

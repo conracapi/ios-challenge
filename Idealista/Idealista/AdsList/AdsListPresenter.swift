@@ -28,7 +28,7 @@ protocol AdsListInteractorOutputProtocol: AnyObject {
 
 
 // MARK: - Class
-class AdsListPresenter  {
+final class AdsListPresenter  {
     
     // Protocol vars
     weak var view: AdsListViewProtocol?

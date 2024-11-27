@@ -19,7 +19,7 @@ protocol AdsListRemoteDataManagerInputProtocol: AnyObject {
 
 // MARK: - Class
 // Protocol: Interactor -> RemoteDataManager
-class AdsListRemoteDataManager:AdsListRemoteDataManagerInputProtocol {
+final class AdsListRemoteDataManager:AdsListRemoteDataManagerInputProtocol {
     
     // Protocol var
     var remoteRequestHandler: AdsListRemoteDataManagerOutputProtocol?
