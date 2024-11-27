@@ -113,7 +113,7 @@ class AdTableViewCell: UITableViewCell {
     
     private func setExtraInfo() {
         self.extraInfoLabel.font = .kohinoorBanglaLight(withSize: 14.0)
-        self.extraInfoLabel.text = "Información extra de la casa"
+        self.extraInfoLabel.text = NSLocalizedString("hello_world", comment: "")
     }
 }
 

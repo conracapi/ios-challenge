@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Idealista
+
+  Created by Conrado Capilla García on 27/11/24.
+  
+*/
+
+"hello_world" = "¡Hello world!";
+"login_button" = "Log in";
+"welcome_message" = "¡Welcome!";

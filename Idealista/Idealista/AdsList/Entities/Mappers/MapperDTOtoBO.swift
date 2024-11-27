@@ -14,7 +14,11 @@ extension HomeAdListBO {
         self.floor = dto.floor
         self.price = dto.price
         self.propertyType = dto.propertyType
-        self.operation = dto.operation
+        switch dto.operation {
+            case "rent": self.operation = .rent
+            case "sale": self.operation = .sale
+            default: self.operation = .unknown
+        }
         self.size = dto.size
         self.exterior = dto.exterior
         self.rooms = dto.rooms

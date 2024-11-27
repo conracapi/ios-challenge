@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Idealista
+
+  Created by Conrado Capilla García on 27/11/24.
+  
+*/
+
+"hello_world" = "¡Hola, Mundo!";
+"login_button" = "Iniciar sesión";
+"welcome_message" = "¡Bienvenido a la App!";

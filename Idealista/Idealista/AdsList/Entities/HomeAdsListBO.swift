@@ -15,7 +15,7 @@ struct HomeAdListBO {
     let price: CGFloat
     let priceInfo: PriceInfoBO
     let propertyType: String
-    let operation: String
+    let operation: AdOperationType
     let size: CGFloat
     let exterior: Bool
     let rooms: Int
@@ -54,4 +54,10 @@ struct ImageBO {
 struct FeaturesBO {
     let hasAirConditioning: Bool
     let hasBoxRoom: Bool
+}
+
+enum AdOperationType {
+    case sale
+    case rent
+    case unknown
 }

@@ -15,7 +15,7 @@ struct HomeAdListVO {
     let price: CGFloat
     let priceInfo: PriceInfoVO
     let propertyType: String
-    let operation: String
+    let operation: AdOperationType
     let size: CGFloat
     let exterior: Bool
     let rooms: Int
