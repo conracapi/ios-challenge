@@ -34,6 +34,14 @@ extension UIColor {
         }
     }
     
+    static var separatorViewColor: UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor { (traits) -> UIColor in
+                return traits.userInterfaceStyle == .dark ? UIColor(hex: "#383838") : UIColor(hex: "#D1D1D1")
+            }
+        }
+    }
+    
     static var greenBrand: UIColor = UIColor(hex: "#E1F66D")
     
     

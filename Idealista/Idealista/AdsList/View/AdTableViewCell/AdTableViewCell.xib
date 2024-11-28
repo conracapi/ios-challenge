@@ -225,13 +225,12 @@
                 <outlet property="collectionViewHeightConstraint" destination="kOt-Wl-ma1" id="R8I-CB-BXL"/>
                 <outlet property="extraInfoLabel" destination="Hzd-8t-4dO" id="1UP-la-Kpe"/>
                 <outlet property="favoriteAdImageView" destination="zPv-Ci-FpG" id="EJL-H3-vtp"/>
-                <outlet property="favoriteAdView" destination="QSn-cF-mOJ" id="LgD-EU-IW1"/>
                 <outlet property="infoView" destination="G0H-Bf-rwn" id="cNq-cd-o1h"/>
                 <outlet property="locationLabel" destination="2Nl-ny-DE8" id="8pd-8w-aEr"/>
                 <outlet property="mapLocationImageView" destination="vY6-2V-yoC" id="xJm-J5-nXm"/>
-                <outlet property="mapLocationView" destination="0RT-Mn-h3V" id="YHG-By-Keq"/>
                 <outlet property="priceLabel" destination="spe-OK-HJf" id="hUF-2F-jhv"/>
                 <outlet property="propertyTypeLabel" destination="g1o-Zz-OTl" id="GQk-HW-AuW"/>
+                <outlet property="separatorView" destination="Ru6-k3-eJp" id="Gkr-bc-1DA"/>
                 <outlet property="topConstraint" destination="P7J-vS-ByI" id="nGZ-VS-Fu2"/>
             </connections>
             <point key="canvasLocation" x="119.08396946564885" y="67.25352112676056"/>

@@ -15,13 +15,12 @@ final class AdTableViewCell: UITableViewCell {
     @IBOutlet private weak var propertyTypeLabel: UILabel!
     @IBOutlet private weak var locationLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var separatorView: UIView!
     @IBOutlet private weak var extraInfoLabel: UILabel!
     @IBOutlet private weak var mapLocationImageView: UIImageView!
-    @IBOutlet private weak var mapLocationView: UIView!
     @IBOutlet private weak var infoView: UIView!
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
     @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var favoriteAdView: UIView!
     @IBOutlet private weak var favoriteAdImageView: UIImageView!
     
     // MARK: Vars
@@ -77,6 +76,7 @@ final class AdTableViewCell: UITableViewCell {
     
     private func setStyles() {
         self.backgroundColor = .mainBackground
+        self.selectionStyle = .none
         self.collectionView.backgroundColor = .adCellBackground
         self.collectionView.layer.cornerRadius = 10.0
         self.collectionView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -85,6 +85,7 @@ final class AdTableViewCell: UITableViewCell {
         self.infoView.layer.cornerRadius = 10.0
         self.infoView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         self.infoView.layer.masksToBounds = true
+        self.separatorView.backgroundColor = .separatorViewColor
         guard let isFirst = homeAd?.isFirst, let isLast = homeAd?.isLast else { return }
         self.topConstraint.constant = isFirst ? 0.0 : 10.0
         self.bottomConstraint.constant = isLast ? 0.0 : 10.0
@@ -100,7 +101,7 @@ final class AdTableViewCell: UITableViewCell {
         guard let homeAd else { return }
         self.propertyTypeLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 16.0), textColor: .adText, text: homeAd.propertyType)
         self.locationLabel.setStyle(font: .kohinoorBanglaRegular(withSize: 15.0), textColor: .adText, text: homeAd.direction)
-        self.priceLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 22.0), textColor: .adText, text: homeAd.price)
+        self.priceLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 24.0), textColor: .adText, text: homeAd.price)
         self.extraInfoLabel.setStyle(font: .kohinoorBanglaLight(withSize: 15.0), textColor: .adText, text: homeAd.additionalInfo)
     }
     
@@ -109,8 +110,8 @@ final class AdTableViewCell: UITableViewCell {
         self.mapLocationImageView.tintColor = .adText
         // heart -> corazón vacío
         // heart.fill -> corazón lleno
-        self.favoriteAdImageView.image = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysTemplate)
-        self.favoriteAdImageView.tintColor = .red
+        self.favoriteAdImageView.image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
+        self.favoriteAdImageView.tintColor = .adText
     }
 }
 

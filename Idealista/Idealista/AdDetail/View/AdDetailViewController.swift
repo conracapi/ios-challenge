@@ -63,19 +63,21 @@ final class AdDetailViewController: BaseViewController {
     private func setupLabelsContent() {
         guard let adDetail = self.adDetailViewModel else { return }
         self.propertyTypeLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 16.0), textColor: .adText, text: adDetail.propertyType)
-        self.priceLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 22.0), textColor: .adText, text: adDetail.price)
-        self.propietaryDesription.setStyle(font: .kohinoorBanglaSemibold(withSize: 16.0), textColor: .adText, text: adDetail.propietaryDescription)
-        self.homeAdDescriptionLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 16.0), textColor: .adText, text: adDetail.homeAdDescription)
+        self.priceLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 24.0), textColor: .adText, text: adDetail.price)
+        self.propietaryDesription.setStyle(font: .kohinoorBanglaRegular(withSize: 15.0), textColor: .adText, text: adDetail.propietaryDescription)
+        self.homeAdDescriptionLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 15.0), textColor: .adText, text: adDetail.homeAdDescription)
     }
     
     private func configureButtons() {
         self.mapLocationImageView.image = UIImage(systemName: "location.circle")?.withRenderingMode(.alwaysTemplate)
         self.mapLocationImageView.tintColor = .adText
-        self.favoriteAdImageView.image = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysTemplate)
-        self.favoriteAdImageView.tintColor = .red
+        self.favoriteAdImageView.image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
+        self.favoriteAdImageView.tintColor = .adText
     }
     
     private func setViewStyles() {
+        self.firstSeparatorView.backgroundColor = .separatorViewColor
+        self.secondSeparatorView.backgroundColor = .separatorViewColor
         self.view.backgroundColor = .adCellBackground
     }
 }
@@ -103,7 +105,7 @@ extension AdDetailViewController: AdDetailViewProtocol {
 
 
 // Protocols: set collectionView
-extension AdDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension AdDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
