@@ -13,7 +13,7 @@ protocol MapLocationViewProtocol: AnyObject {
     var presenter: MapLocationPresenterProtocol? { get set }
 }
 
-class MapLocationViewController: UIViewController {
+class MapLocationViewController: BaseViewController {
     
     // MARK: IBOutlets
     @IBOutlet private weak var mapView: MKMapView!

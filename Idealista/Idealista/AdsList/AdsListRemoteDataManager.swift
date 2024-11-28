@@ -12,25 +12,24 @@ import Foundation
 // MARK: - Protocols
 // Protocol: Interactor -> RemoteDataManager
 protocol AdsListRemoteDataManagerInputProtocol: AnyObject {
-    // Vars
     var remoteRequestHandler: AdsListRemoteDataManagerOutputProtocol? { get set }
-    // Functions
     func fetchAllAds(completion: @escaping (Result<[HomeAdListDTO], Error>) -> Void)
 }
 
 
 // MARK: - Class
-class AdsListRemoteDataManager:AdsListRemoteDataManagerInputProtocol {
+// Protocol: Interactor -> RemoteDataManager
+final class AdsListRemoteDataManager:AdsListRemoteDataManagerInputProtocol {
     
+    // Protocol var
     var remoteRequestHandler: AdsListRemoteDataManagerOutputProtocol?
     
+    // Protocol functions
     func fetchAllAds(completion: @escaping (Result<[HomeAdListDTO], Error>) -> Void) {
-        
         guard let url = URL(string: UrlConstants.HomeAdsList.adsListUrl) else {
             completion(.failure(NetworkError.invalidURL))
             return
         }
-        
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
                 completion(.failure(NetworkError.errorFetchingData))
@@ -49,5 +48,4 @@ class AdsListRemoteDataManager:AdsListRemoteDataManagerInputProtocol {
             }
         }.resume()
     }
-    
 }

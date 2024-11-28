@@ -14,24 +14,25 @@ import UIKit
 protocol AdsListViewProtocol: AnyObject {
     var presenter: AdsListPresenterProtocol? { get set }
     func loadUI()
-    func fetchedAds(_ ads: [HomeAdListVO])
+    func fetchedAds(_ ads: [HomeAdListViewModel])
 }
 
 // Protocol: AdTableViewCell -> View
 protocol AdTableViewCellProtocol: AnyObject {
     func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat)
+    func saveFavoriteAd(_ ad: HomeAdListViewModel)
 }
 
 
 // MARK: - Class
-class AdsListViewController: UIViewController {
+final class AdsListViewController: BaseViewController {
     
     // IBOutlets
     @IBOutlet weak var tableView: UITableView!
     
     // Vars
     var presenter: AdsListPresenterProtocol?
-    private var homeAds: [HomeAdListVO] = []
+    private var homeAds: [HomeAdListViewModel] = []
     private let refreshControl: UIRefreshControl = UIRefreshControl()  // pull to refresh
     
     override func viewDidLoad() {
@@ -41,13 +42,16 @@ class AdsListViewController: UIViewController {
     }
     
     // Private functions
-    private func setDelegatesTableView() {
+    private func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.tableView.register(UINib(nibName: AdTableViewCell.name, bundle: nil), forCellReuseIdentifier: AdTableViewCell.name)
     }
     
-    private func registerAdCell() {
-        self.tableView.register(UINib(nibName: AdTableViewCell.name, bundle: nil), forCellReuseIdentifier: AdTableViewCell.name)
+    private func setStyles() {
+        self.view.backgroundColor = .mainBackground
+        self.tableView.backgroundColor = .mainBackground
+        self.tableView.showsVerticalScrollIndicator = false
     }
     
     private func addPullToRefresh() {
@@ -61,26 +65,8 @@ class AdsListViewController: UIViewController {
     }
 }
 
-extension AdsListViewController: AdsListViewProtocol {
-    
-    func loadUI() {
-        self.setDelegatesTableView()
-        self.registerAdCell()
-        self.addPullToRefresh()
-    }
-    
-    func fetchedAds(_ ads: [HomeAdListVO]) {
-        self.homeAds = ads
-        DispatchQueue.main.async {
-            if self.refreshControl.isRefreshing {
-                self.refreshControl.endRefreshing()
-            }
-            self.tableView.reloadData()
-        }
-    }
-    
-}
 
+// Protocols: set tableView
 extension AdsListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -102,21 +88,40 @@ extension AdsListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Hay que navegar al detalle del anuncio \(indexPath.row)")
     }
-    
 }
 
+
+// Protocol: Presenter -> View
+extension AdsListViewController: AdsListViewProtocol {
+    
+    func loadUI() {
+        self.configureTableView()
+        self.setStyles()
+        self.addPullToRefresh()
+    }
+    
+    func fetchedAds(_ ads: [HomeAdListViewModel]) {
+        self.homeAds = ads
+        DispatchQueue.main.async {
+            if self.refreshControl.isRefreshing {
+                self.refreshControl.endRefreshing()
+            }
+            self.tableView.reloadData()
+        }
+    }
+}
+
+
+// Protocol: AdTableViewCell -> View
 extension AdsListViewController: AdTableViewCellProtocol {
     
     func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat) {
-        if let navController = self.navigationController {
-            guard let mapLocationView = MapLocationWireFrame.createMapLocationModule() as? MapLocationViewController else { return }
-            mapLocationView.latitude = latitude
-            mapLocationView.longitude = longitude
-            navController.pushViewController(mapLocationView, animated: true)
-        }
+        guard let presenter else { return }
+        presenter.navigateToMapLocation(latitude: latitude, longitude: longitude)
     }
     
+    func saveFavoriteAd(_ ad: HomeAdListViewModel) {
+        guard let presenter else { return }
+        presenter.saveFavoriteAd(ad)
+    }
 }
-
-
-

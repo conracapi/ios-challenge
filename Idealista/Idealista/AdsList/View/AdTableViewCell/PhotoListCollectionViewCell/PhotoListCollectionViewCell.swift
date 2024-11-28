@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PhotoListCollectionViewCell: UICollectionViewCell {
+final class PhotoListCollectionViewCell: UICollectionViewCell {
 
     // MARK: IBOutlets
     @IBOutlet private weak var homeImageView: UIImageView!

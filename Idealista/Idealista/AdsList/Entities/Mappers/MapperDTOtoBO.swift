@@ -13,8 +13,15 @@ extension HomeAdListBO {
         self.thumbnail = dto.thumbnail
         self.floor = dto.floor
         self.price = dto.price
-        self.propertyType = dto.propertyType
-        self.operation = dto.operation
+        switch dto.propertyType {
+            case AdPropertyType.flat.rawValue: self.propertyType = .flat
+            default: self.propertyType = .unknown
+        }
+        switch dto.operation {
+            case AdOperationType.rent.rawValue: self.operation = .rent
+            case AdOperationType.sale.rawValue: self.operation = .sale
+            default: self.operation = .unknown
+        }
         self.size = dto.size
         self.exterior = dto.exterior
         self.rooms = dto.rooms

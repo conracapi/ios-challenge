@@ -11,10 +11,23 @@ import Foundation
 
 // MARK: - Protocols
 // protocol: Interactor -> LocalDataManager
-protocol AdsListLocalDataManagerInputProtocol: AnyObject { }
+protocol AdsListLocalDataManagerInputProtocol: AnyObject {
+    func saveFavoriteAd(_ ad: HomeAdListViewModel)
+}
 
 
 // MARK: - Class
-class AdsListLocalDataManager:AdsListLocalDataManagerInputProtocol {
+// protocol: Interactor -> LocalDataManager
+final class AdsListLocalDataManager:AdsListLocalDataManagerInputProtocol {
     
+    func saveFavoriteAd(_ ad: HomeAdListViewModel) {
+        var ads = CoreDataManager.shared.fetchAds()
+        CoreDataManager.shared.deleteAllAds()
+        ads = CoreDataManager.shared.fetchAds()
+        CoreDataManager.shared.saveAd(newAd: ad)
+        ads = CoreDataManager.shared.fetchAds()
+        ads.forEach { ad in
+            print(ad.propertyCode ?? "Sin código")
+        }
+    }
 }
