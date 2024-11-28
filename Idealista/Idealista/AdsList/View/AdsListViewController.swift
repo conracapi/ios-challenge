@@ -15,6 +15,7 @@ protocol AdsListViewProtocol: AnyObject {
     var presenter: AdsListPresenterProtocol? { get set }
     func loadUI()
     func fetchedAds(_ ads: [HomeAdListViewModel])
+    func hideBackButtonNavBar()
 }
 
 // Protocol: AdTableViewCell -> View
@@ -40,6 +41,12 @@ final class AdsListViewController: BaseViewController {
         super.viewDidLoad()
         guard let presenter else { return }
         presenter.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let presenter else { return }
+        presenter.viewWillAppear()
     }
     
     // Private functions
@@ -110,6 +117,10 @@ extension AdsListViewController: AdsListViewProtocol {
             }
             self.tableView.reloadData()
         }
+    }
+    
+    func hideBackButtonNavBar() {
+        self.navigationItem.leftBarButtonItem = nil
     }
 }
 

@@ -16,6 +16,7 @@ protocol AdsListPresenterProtocol: AnyObject {
     var interactor: AdsListInteractorInputProtocol? { get set }
     var wireFrame: AdsListWireFrameProtocol? { get set }
     func viewDidLoad()
+    func viewWillAppear()
     func fetchAllAds()
     func saveFavoriteAd(_ ad: HomeAdListViewModel)
     func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat)
@@ -58,6 +59,11 @@ extension AdsListPresenter: AdsListPresenterProtocol {
         guard let view = self.view else { return }
         view.loadUI()
         self.fetchAllAds()
+    }
+    
+    func viewWillAppear() {
+        guard let view else { return }
+        view.hideBackButtonNavBar()
     }
     
     func fetchAllAds() {

@@ -29,6 +29,16 @@ class BaseViewController: UIViewController {
         self.navigationItem.titleView = titleImageView
         titleImageView.widthAnchor.constraint(equalToConstant: 120).isActive = true
         titleImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        // back button
+        let backButtonImage = UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysTemplate)
+        let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(backButtonTapped))
+        self.navigationItem.leftBarButtonItem = backButton
+        navController.navigationBar.tintColor = .black
+    }
+    
+    
+    @objc private func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
     }
     
 }
