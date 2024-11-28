@@ -22,32 +22,58 @@ final class CoreDataManager {
 
     
     // MARK: - CRUD methods of ads list
-    /// save a new ad
+    // save a new ad
     func saveAd(newAd: HomeAdListViewModel) {
-        let myAd = AdHomeList(context: self.context)
-        myAd.titleAd = newAd.address
-        myAd.descriptionAd = newAd.floor
+        let ad = AdHomeList(context: self.context)
+        ad.direction = newAd.direction
+        ad.price = newAd.price
+        ad.propertyCode = newAd.propertyCode
+        ad.propertyType = newAd.propertyType
         self.saveContext()
     }
 
-    /// remove the selected ad
+    // remove the selected ad
     func removeAd(_ ad: AdHomeList) {
         self.context.delete(ad)
         self.saveContext()
     }
+    
+    // remove all ads
+    func deleteAllAds() {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "AdHomeList")
+        do {
+            let objects = try self.context.fetch(fetchRequest)
+            for object in objects {
+                if let objectToDelete = object as? NSManagedObject {
+                    self.context.delete(objectToDelete)
+                }
+            }
+            try self.context.save()
+        } catch let error {
+            print("Error al eliminar los objetos: \(error.localizedDescription)")
+        }
+    }
 
-    /// fetch all ads
+
+    // fetch all ads
     func fetchAds() -> [AdHomeList] {
         let fetchRequest: NSFetchRequest<AdHomeList> = AdHomeList.fetchRequest()
         do {
-            return try self.context.fetch(fetchRequest)
+            let ads = try self.context.fetch(fetchRequest)
+            for ad in ads {
+                print(ad)
+            }
+            return ads
         } catch {
             print("Error fetch ads: \(error)")
             return []
         }
     }
 
-    // MARK: - Guardar contexto
+
+    
+    // MARK: - Private functions
+    // Save context
     private func saveContext() {
         do {
             try context.save()

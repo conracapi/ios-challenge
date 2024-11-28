@@ -13,8 +13,7 @@ extension HomeAdListViewModel {
     
     init(vo: HomeAdListVO, isFirst: Bool, isLast: Bool) {
         self.propertyCode = vo.propertyCode
-        self.floor = vo.floor
-        self.priceInfo = vo.priceInfo
+        self.price = "\(Double(vo.priceInfo.price.amount).applyThousandsSeparator()) \(vo.priceInfo.price.currencySuffix)"
         var propertyType: String = ""
         switch vo.propertyType {
             case .flat: propertyType = NSLocalizedString("flat", comment: "")
@@ -27,16 +26,17 @@ extension HomeAdListViewModel {
             default: break
         }
         self.propertyType = "\(propertyType.uppercased()) (\(adType))"
-        self.size = vo.size
-        self.exterior = vo.exterior
-        self.rooms = vo.rooms
-        self.bathrooms = vo.bathrooms
-        self.address = vo.address
-        self.province = vo.province
-        self.district = vo.district
+        self.direction = vo.district + ", " + vo.province
         self.location = CLLocation(latitude: vo.latitude, longitude: vo.longitude)
-        self.multimedia = vo.multimedia
-        self.features = vo.features
+        self.multimedia = vo.multimedia.images.map { $0.url }
+        let floor = "-  \(vo.floor)ª \(NSLocalizedString("floor", comment: ""))."
+        let size = "-  \(vo.size) m² \(NSLocalizedString("of_area", comment: ""))."
+        let rooms = "-  \(vo.rooms) \(NSLocalizedString("rooms", comment: ""))."
+        let bathrooms = "-  \(vo.bathrooms) \(NSLocalizedString("bathrooms", comment: ""))."
+        let exterior = vo.exterior ? "-  \(NSLocalizedString("with_exterior", comment: ""))." : "-  \(NSLocalizedString("without_exterior", comment: ""))."
+        let airConditioning = vo.features.hasAirConditioning ? "-  \(NSLocalizedString("with_air_conditioning", comment: ""))." : "-  \(NSLocalizedString("without_air_conditioning", comment: ""))."
+        let boxRoom = vo.features.hasBoxRoom ? "-  \(NSLocalizedString("with_box_room", comment: ""))." : "-  \(NSLocalizedString("without_box_room", comment: ""))."
+        self.additionalInfo = floor + "\n" + size + "\n" + rooms + "\n" + bathrooms + "\n" + exterior + "\n" + airConditioning + "\n" + boxRoom
         self.isFirst = isFirst
         self.isLast = isLast
     }

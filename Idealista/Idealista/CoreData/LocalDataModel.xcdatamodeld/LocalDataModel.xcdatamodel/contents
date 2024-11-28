@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23231" systemVersion="24B91" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="AdHomeList" representedClassName="AdHomeList" syncable="YES" codeGenerationType="class">
-        <attribute name="descriptionAd" optional="YES" attributeType="String"/>
+        <attribute name="direction" optional="YES" attributeType="String"/>
+        <attribute name="price" optional="YES" attributeType="String"/>
         <attribute name="propertyCode" optional="YES" attributeType="String"/>
-        <attribute name="titleAd" optional="YES" attributeType="String"/>
+        <attribute name="propertyType" optional="YES" attributeType="String"/>
     </entity>
 </model>

@@ -9,22 +9,13 @@ import Foundation
 import CoreLocation
 
 struct HomeAdListViewModel {
-    
     let propertyCode: String
-    let floor: String
-    let priceInfo: PriceInfoVO
+    let price: String
     let propertyType: String
-    let size: CGFloat
-    let exterior: Bool
-    let rooms: Int
-    let bathrooms: Int
-    let address: String
-    let province: String
-    let district: String
+    let direction: String
     let location: CLLocation
-    let multimedia: MultimediaVO
-    let features: FeaturesVO
+    let multimedia: [String]
+    let additionalInfo: String
     let isFirst: Bool
     let isLast: Bool
-
 }

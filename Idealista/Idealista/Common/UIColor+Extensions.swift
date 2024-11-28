@@ -26,6 +26,14 @@ extension UIColor {
         }
     }
     
+    static var adText: UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor { (traits) -> UIColor in
+                return traits.userInterfaceStyle == .dark ? UIColor(hex: "#FFFFFF") : UIColor(hex: "#222222")
+            }
+        }
+    }
+    
     static var greenBrand: UIColor = UIColor(hex: "#E1F66D")
     
     

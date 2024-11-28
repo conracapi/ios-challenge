@@ -6,6 +6,16 @@
   
 */
 
+"flat" = "apartamento";
 "rent" = "alquiler";
 "sale" = "venta";
-"flat" = "apartamento";
+"floor" = "planta";
+"of_area" = "de superficie";
+"rooms" = "habitaciones";
+"bathrooms" = "baños";
+"with_exterior" = "Con terraza";
+"without_exterior" = "Sin terraza";
+"with_air_conditioning" = "Con aire acondicionado";
+"without_air_conditioning" = "Sin aire acondicionado";
+"with_box_room" = "Con trastero";
+"without_box_room" = "Sin trastero";

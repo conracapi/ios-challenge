@@ -21,10 +21,13 @@ protocol AdsListLocalDataManagerInputProtocol: AnyObject {
 final class AdsListLocalDataManager:AdsListLocalDataManagerInputProtocol {
     
     func saveFavoriteAd(_ ad: HomeAdListViewModel) {
+        var ads = CoreDataManager.shared.fetchAds()
+        CoreDataManager.shared.deleteAllAds()
+        ads = CoreDataManager.shared.fetchAds()
         CoreDataManager.shared.saveAd(newAd: ad)
-        let ads = CoreDataManager.shared.fetchAds()
+        ads = CoreDataManager.shared.fetchAds()
         ads.forEach { ad in
-            print(ad.titleAd ?? "Sin título")
+            print(ad.propertyCode ?? "Sin código")
         }
     }
 }
