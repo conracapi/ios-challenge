@@ -18,7 +18,7 @@ protocol AdsListPresenterProtocol: AnyObject {
     func viewDidLoad()
     func fetchAllAds()
     func saveFavoriteAd(_ ad: HomeAdListViewModel)
-    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat)
+    func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat)
 }
 
 // Protocol: Interactor -> Presenter
@@ -70,9 +70,9 @@ extension AdsListPresenter: AdsListPresenterProtocol {
         interactor.saveFavoriteAd(ad)
     }
     
-    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat) {
+    func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat) {
         guard let view = self.view, let wireFrame = self.wireFrame else { return }
-        wireFrame.navigateToMapLocation(view: view, latitude: latitude, longitude: longitude)
+        wireFrame.showAdLocationOnMap(view: view, latitude: latitude, longitude: longitude)
     }
     
 }

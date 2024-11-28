@@ -14,7 +14,7 @@ import UIKit
 // Protocol: Presenter -> Wireframe
 protocol AdDetailWireFrameProtocol: AnyObject {
     static func createAdDetailModule() -> UIViewController
-    func navigateToMapLocation(view: any AdDetailViewProtocol, latitude: CGFloat, longitude: CGFloat)
+    func showAdLocationOnMap(view: any AdDetailViewProtocol, latitude: CGFloat, longitude: CGFloat)
 }
 
 
@@ -40,7 +40,7 @@ final class AdDetailWireFrame: AdDetailWireFrameProtocol {
         return view
     }
     
-    func navigateToMapLocation(view: any AdDetailViewProtocol, latitude: CGFloat, longitude: CGFloat) {
+    func showAdLocationOnMap(view: any AdDetailViewProtocol, latitude: CGFloat, longitude: CGFloat) {
         guard let view = view as? UIViewController,
               let navController = view.navigationController
         else { return }

@@ -19,7 +19,7 @@ protocol AdsListViewProtocol: AnyObject {
 
 // Protocol: AdTableViewCell -> View
 protocol AdTableViewCellProtocol: AnyObject {
-    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat)
+    func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat)
     func saveFavoriteAd(_ ad: HomeAdListViewModel)
 }
 
@@ -117,9 +117,9 @@ extension AdsListViewController: AdsListViewProtocol {
 // Protocol: AdTableViewCell -> View
 extension AdsListViewController: AdTableViewCellProtocol {
     
-    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat) {
+    func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat) {
         guard let presenter else { return }
-        presenter.navigateToMapLocation(latitude: latitude, longitude: longitude)
+        presenter.showAdLocationOnMap(latitude: latitude, longitude: longitude)
     }
     
     func saveFavoriteAd(_ ad: HomeAdListViewModel) {

@@ -33,7 +33,7 @@ final class AdDetailViewController: BaseViewController {
     
     // Vars
     var presenter: AdDetailPresenterProtocol?
-    private var adViewModel: HomeAdDetailViewModel? = nil
+    private var adDetailViewModel: HomeAdDetailViewModel? = nil
     
     // Lifecycle
     override func viewDidLoad() {
@@ -44,12 +44,12 @@ final class AdDetailViewController: BaseViewController {
     
     // IBActions private functions
     @IBAction private func seeOnMapLocation(_ sender: Any) {
-        guard let ad = self.adViewModel, let presenter else { return }
-        presenter.navigateToMapLocation(latitude: ad.location.coordinate.latitude , longitude: ad.location.coordinate.longitude)
+        guard let ad = self.adDetailViewModel, let presenter else { return }
+        presenter.showAdLocationOnMap(latitude: ad.location.coordinate.latitude , longitude: ad.location.coordinate.longitude)
     }
     
     @IBAction private func saveFavoriteAd(_ sender: Any) {
-        guard let presenter, let ad = self.adViewModel else { return }
+        guard let presenter, let ad = self.adDetailViewModel else { return }
         presenter.saveFavoriteAd(ad)
     }
     
@@ -60,41 +60,23 @@ final class AdDetailViewController: BaseViewController {
         self.collectionView.register(UINib(nibName: PhotoListCollectionViewCell.name, bundle: nil), forCellWithReuseIdentifier: PhotoListCollectionViewCell.name)
     }
     
-    private func setPropertyType() {
-        guard let ad = self.adViewModel else { return }
-        self.propertyTypeLabel.font = .kohinoorBanglaSemibold(withSize: 16.0)
-        self.propertyTypeLabel.text = ad.propertyType
-        self.propertyTypeLabel.textColor = .adText
-    }
-    
-    private func setPrice() {
-        guard let ad = self.adViewModel else { return }
-        self.priceLabel.font = .kohinoorBanglaSemibold(withSize: 22.0)
-        self.priceLabel.text = ad.price
-        self.priceLabel.textColor = .adText
-    }
-    
-    private func setPropietaryDesription() {
-        guard let ad = self.adViewModel else { return }
-        self.propietaryDesription.font = .kohinoorBanglaSemibold(withSize: 16.0)
-        self.propietaryDesription.text = ad.propietaryDescription
-        self.propietaryDesription.textColor = .adText
-    }
-    
-    private func setHomeAdDesription() {
-        guard let ad = self.adViewModel else { return }
-        self.homeAdDescriptionLabel.font = .kohinoorBanglaSemibold(withSize: 16.0)
-        self.homeAdDescriptionLabel.text = ad.homeAdDescription
-        self.homeAdDescriptionLabel.textColor = .adText
+    private func setupLabelsContent() {
+        guard let adDetail = self.adDetailViewModel else { return }
+        self.propertyTypeLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 16.0), textColor: .adText, text: adDetail.propertyType)
+        self.priceLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 22.0), textColor: .adText, text: adDetail.price)
+        self.propietaryDesription.setStyle(font: .kohinoorBanglaSemibold(withSize: 16.0), textColor: .adText, text: adDetail.propietaryDescription)
+        self.homeAdDescriptionLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 16.0), textColor: .adText, text: adDetail.homeAdDescription)
     }
     
     private func configureButtons() {
         self.mapLocationImageView.image = UIImage(systemName: "location.circle")?.withRenderingMode(.alwaysTemplate)
         self.mapLocationImageView.tintColor = .adText
-        // heart -> corazón vacío
-        // heart.fill -> corazón lleno
         self.favoriteAdImageView.image = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysTemplate)
         self.favoriteAdImageView.tintColor = .red
+    }
+    
+    private func setViewStyles() {
+        self.view.backgroundColor = .adCellBackground
     }
 }
 
@@ -107,30 +89,34 @@ extension AdDetailViewController: AdDetailViewProtocol {
     }
     
     func fetchedDetailAd(ad: HomeAdDetailViewModel) {
-        self.adViewModel = ad
-        DispatchQueue.main.async {
+        self.adDetailViewModel = ad
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             self.collectionView.reloadData()
-            self.setPropertyType()
-            self.setPrice()
-            self.setPropietaryDesription()
-            self.setHomeAdDesription()
+            self.setupLabelsContent()
             self.configureButtons()
-            self.view.backgroundColor = .adCellBackground
+            self.setViewStyles()
         }
     }
     
 }
 
+
+// Protocols: set collectionView
 extension AdDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.adDetailViewModel?.multimedia.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoListCollectionViewCell.name, for: indexPath)
         guard let photoCell = cell as? PhotoListCollectionViewCell else { return UICollectionViewCell() }
-        photoCell.load(url: self.adViewModel?.multimedia[indexPath.row])
+        photoCell.load(url: self.adDetailViewModel?.multimedia[indexPath.row])
         return photoCell
     }
     

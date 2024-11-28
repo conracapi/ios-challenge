@@ -17,7 +17,7 @@ protocol AdDetailPresenterProtocol: AnyObject {
     var wireFrame: AdDetailWireFrameProtocol? { get set }
     func viewDidLoad()
     func fetchDetailAd()
-    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat)
+    func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat)
     func saveFavoriteAd(_ ad: HomeAdDetailViewModel)
 }
 
@@ -30,6 +30,7 @@ protocol AdDetailInteractorOutputProtocol: AnyObject {
 // MARK: - Class
 final class AdDetailPresenter  {
     
+    // Protocol vars
     weak var view: AdDetailViewProtocol?
     var interactor: AdDetailInteractorInputProtocol?
     var wireFrame: AdDetailWireFrameProtocol?
@@ -51,9 +52,9 @@ extension AdDetailPresenter: AdDetailPresenterProtocol {
         interactor.fetchDetailAd()
     }
     
-    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat) {
+    func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat) {
         guard let wireFrame, let view else { return }
-        wireFrame.navigateToMapLocation(view: view, latitude: latitude, longitude: longitude)
+        wireFrame.showAdLocationOnMap(view: view, latitude: latitude, longitude: longitude)
     }
     
     func saveFavoriteAd(_ ad: HomeAdDetailViewModel) {

@@ -27,10 +27,12 @@ protocol AdDetailRemoteDataManagerOutputProtocol: AnyObject { }
 // Protocol: Presenter -> Interactor
 final class AdDetailInteractor: AdDetailInteractorInputProtocol {
 
+    // Protocols vars
     weak var presenter: AdDetailInteractorOutputProtocol?
     var localDatamanager: AdDetailLocalDataManagerInputProtocol?
     var remoteDatamanager: AdDetailRemoteDataManagerInputProtocol?
 
+    // Protocol functions
     func fetchDetailAd() {
         guard let remoteDatamanager else { return }
         remoteDatamanager.fetchDetailAd { [weak self] result in

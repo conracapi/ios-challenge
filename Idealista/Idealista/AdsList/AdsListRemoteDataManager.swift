@@ -24,28 +24,15 @@ final class AdsListRemoteDataManager:AdsListRemoteDataManagerInputProtocol {
     // Protocol var
     var remoteRequestHandler: AdsListRemoteDataManagerOutputProtocol?
     
-    // Protocol functions
+    // Private var
+    private let httpClient: HTTPClientProtocol = HTTPClient()
+    
+    // Protocol function
     func fetchAllAds(completion: @escaping (Result<[HomeAdListDTO], Error>) -> Void) {
         guard let url = URL(string: UrlConstants.HomeAdsList.adsListUrl) else {
             completion(.failure(NetworkError.invalidURL))
             return
         }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let _ = error {
-                completion(.failure(NetworkError.errorFetchingData))
-                return
-            }
-            guard let data = data else {
-                completion(.failure(NetworkError.invalidData))
-                return
-            }
-            do {
-                let adsList = try JSONDecoder().decode([HomeAdListDTO].self, from: data)
-                completion(.success(adsList))
-            } catch {
-                completion(.failure(NetworkError.errorParsingData))
-                return
-            }
-        }.resume()
+        httpClient.performRequest(url: url, responseType: [HomeAdListDTO].self, completion: completion)
     }
 }

@@ -50,17 +50,14 @@ final class AdTableViewCell: UITableViewCell {
         self.homeAd = homeAd
         self.setStyles()
         self.setPhotos()
-        self.setPropertyType()
-        self.setLocalization()
-        self.setPrice()
-        self.setExtraInfo()
+        self.setupLabelsContent()
         self.configureButtons()
     }
     
     // MARK: IBActions private functions
     @IBAction private func seeOnMapAction(_ sender: Any) {
         guard let delegate = self.delegate, let homeAd = self.homeAd else { return }
-        delegate.navigateToMapLocation(latitude: homeAd.location.coordinate.latitude, longitude: homeAd.location.coordinate.longitude)
+        delegate.showAdLocationOnMap(latitude: homeAd.location.coordinate.latitude, longitude: homeAd.location.coordinate.longitude)
     }
     
     @IBAction private func saveFavoriteAd(_ sender: Any) {
@@ -99,31 +96,12 @@ final class AdTableViewCell: UITableViewCell {
         self.collectionView.reloadData()
     }
     
-    private func setPropertyType() {
+    private func setupLabelsContent() {
         guard let homeAd else { return }
-        self.propertyTypeLabel.font = .kohinoorBanglaSemibold(withSize: 16.0)
-        self.propertyTypeLabel.text = homeAd.propertyType
-        self.propertyTypeLabel.textColor = .adText
-    }
-    
-    private func setLocalization() {
-        guard let homeAd else { return }
-        self.locationLabel.font = .kohinoorBanglaRegular(withSize: 15.0)
-        self.locationLabel.text = homeAd.direction
-        self.locationLabel.textColor = .adText
-    }
-    
-    private func setPrice() {
-        guard let homeAd else { return }
-        self.priceLabel.font = .kohinoorBanglaSemibold(withSize: 22.0)
-        self.priceLabel.text = homeAd.price
-        self.priceLabel.textColor = .adText
-    }
-    
-    private func setExtraInfo() {
-        self.extraInfoLabel.font = .kohinoorBanglaLight(withSize: 15.0)
-        self.extraInfoLabel.text = homeAd?.additionalInfo
-        self.extraInfoLabel.textColor = .adText
+        self.propertyTypeLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 16.0), textColor: .adText, text: homeAd.propertyType)
+        self.locationLabel.setStyle(font: .kohinoorBanglaRegular(withSize: 15.0), textColor: .adText, text: homeAd.direction)
+        self.priceLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 22.0), textColor: .adText, text: homeAd.price)
+        self.extraInfoLabel.setStyle(font: .kohinoorBanglaLight(withSize: 15.0), textColor: .adText, text: homeAd.additionalInfo)
     }
     
     private func configureButtons() {
