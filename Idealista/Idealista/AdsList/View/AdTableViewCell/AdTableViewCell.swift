@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AdTableViewCell: UITableViewCell {
+final class AdTableViewCell: UITableViewCell {
     
     // MARK: IBOutlets
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -18,12 +18,17 @@ class AdTableViewCell: UITableViewCell {
     @IBOutlet private weak var extraInfoLabel: UILabel!
     @IBOutlet private weak var mapLocationImageView: UIImageView!
     @IBOutlet private weak var mapLocationView: UIView!
+    @IBOutlet private weak var infoView: UIView!
+    @IBOutlet private weak var topConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var favoriteAdView: UIView!
+    @IBOutlet private weak var favoriteAdImageView: UIImageView!
     
     // MARK: Vars
     static let name: String = String(describing: AdTableViewCell.self)
     weak var delegate: AdTableViewCellProtocol?
-    private var homeAd: HomeAdListVO? = nil
-    private var photosAd: [ImageVO] = []
+    private var homeAd: HomeAdListViewModel? = nil
+    private var photosUrl: [String] = []
     
     // MARK: Lifecycle
     override func awakeFromNib() {
@@ -41,19 +46,26 @@ class AdTableViewCell: UITableViewCell {
     }
     
     // MARK: Public functions
-    func load(homeAd: HomeAdListVO) {
+    func load(homeAd: HomeAdListViewModel) {
         self.homeAd = homeAd
-        self.setPhotos(homeAd.multimedia.images)
-        self.setPropertyType(with: homeAd.propertyType)
-        self.setLocation(with: homeAd.district, and: homeAd.province)
-        self.setPrice(with: homeAd.priceInfo.price.amount, and: homeAd.priceInfo.price.currencySuffix)
+        self.setStyles()
+        self.setPhotos()
+        self.setPropertyType()
+        self.setLocalization()
+        self.setPrice()
         self.setExtraInfo()
+        self.configureButtons()
     }
     
-    // MARK: IBActions
+    // MARK: IBActions private functions
     @IBAction private func seeOnMapAction(_ sender: Any) {
         guard let delegate = self.delegate, let homeAd = self.homeAd else { return }
-        delegate.navigateToMapLocation(latitude: homeAd.latitude, longitude: homeAd.longitude)
+        delegate.navigateToMapLocation(latitude: homeAd.location.coordinate.latitude, longitude: homeAd.location.coordinate.longitude)
+    }
+    
+    @IBAction private func saveFavoriteAd(_ sender: Any) {
+        guard let delegate, let homeAd else { return }
+        delegate.saveFavoriteAd(homeAd)
     }
     
     // MARK: Private functions
@@ -66,42 +78,74 @@ class AdTableViewCell: UITableViewCell {
         self.collectionView.register(UINib(nibName: PhotoListCollectionViewCell.name, bundle: nil), forCellWithReuseIdentifier: PhotoListCollectionViewCell.name)
     }
     
-    private func setPhotos(_ photos: [ImageVO]) {
-        self.photosAd = photos
+    private func setStyles() {
+        self.backgroundColor = .mainBackground
+        self.collectionView.backgroundColor = .adCellBackground
+        self.collectionView.layer.cornerRadius = 10.0
+        self.collectionView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        self.collectionView.layer.masksToBounds = true
+        self.infoView.backgroundColor = .adCellBackground
+        self.infoView.layer.cornerRadius = 10.0
+        self.infoView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        self.infoView.layer.masksToBounds = true
+        guard let isFirst = homeAd?.isFirst, let isLast = homeAd?.isLast else { return }
+        self.topConstraint.constant = isFirst ? 0.0 : 10.0
+        self.bottomConstraint.constant = isLast ? 0.0 : 10.0
+    }
+    
+    private func setPhotos() {
+        guard let photos = homeAd?.multimedia else { return }
+        self.photosUrl = photos
         self.collectionView.reloadData()
     }
     
-    private func setPropertyType(with propertyType: String) {
+    private func setPropertyType() {
+        guard let homeAd else { return }
         self.propertyTypeLabel.font = .kohinoorBanglaSemibold(withSize: 16.0)
-        self.propertyTypeLabel.text = propertyType
+        self.propertyTypeLabel.text = homeAd.propertyType
+        self.propertyTypeLabel.textColor = .adText
     }
     
-    private func setLocation(with district: String, and province: String) {
-        self.locationLabel.font = .kohinoorBanglaRegular(withSize: 14.0)
-        self.locationLabel.text = district + ", " + province
+    private func setLocalization() {
+        guard let homeAd else { return }
+        self.locationLabel.font = .kohinoorBanglaRegular(withSize: 15.0)
+        self.locationLabel.text = homeAd.direction
+        self.locationLabel.textColor = .adText
     }
     
-    private func setPrice(with price: CGFloat, and currency: String) {
+    private func setPrice() {
+        guard let homeAd else { return }
         self.priceLabel.font = .kohinoorBanglaSemibold(withSize: 22.0)
-        self.priceLabel.text = "\(price) \(currency)"
+        self.priceLabel.text = homeAd.price
+        self.priceLabel.textColor = .adText
     }
     
     private func setExtraInfo() {
-        self.extraInfoLabel.font = .kohinoorBanglaLight(withSize: 14.0)
-        self.extraInfoLabel.text = "Información extra de la casa"
+        self.extraInfoLabel.font = .kohinoorBanglaLight(withSize: 15.0)
+        self.extraInfoLabel.text = homeAd?.additionalInfo
+        self.extraInfoLabel.textColor = .adText
+    }
+    
+    private func configureButtons() {
+        self.mapLocationImageView.image = UIImage(systemName: "location.circle")?.withRenderingMode(.alwaysTemplate)
+        self.mapLocationImageView.tintColor = .adText
+        // heart -> corazón vacío
+        // heart.fill -> corazón lleno
+        self.favoriteAdImageView.image = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysTemplate)
+        self.favoriteAdImageView.tintColor = .red
     }
 }
 
 extension AdTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.photosUrl.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoListCollectionViewCell.name, for: indexPath)
         guard let photoCell = cell as? PhotoListCollectionViewCell else { return UICollectionViewCell() }
-        photoCell.load(url: homeAd?.multimedia.images[indexPath.row].url)
+        photoCell.load(url: self.photosUrl[indexPath.row])
         return photoCell
     }
     

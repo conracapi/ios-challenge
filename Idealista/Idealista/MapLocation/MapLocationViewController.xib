@@ -22,18 +22,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ut7-un-KTq">
-                    <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                    <rect key="frame" x="0.0" y="103" width="393" height="749"/>
                     <standardMapConfiguration key="preferredConfiguration"/>
                 </mapView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="ut7-un-KTq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="2w4-ZW-Bob"/>
+                <constraint firstItem="ut7-un-KTq" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="2w4-ZW-Bob"/>
                 <constraint firstAttribute="trailing" secondItem="ut7-un-KTq" secondAttribute="trailing" id="Huf-Ou-a64"/>
                 <constraint firstItem="ut7-un-KTq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Szg-JZ-BLp"/>
                 <constraint firstAttribute="bottom" secondItem="ut7-un-KTq" secondAttribute="bottom" id="hCP-Db-r6v"/>
             </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <point key="canvasLocation" x="131" y="-11"/>
         </view>
     </objects>
