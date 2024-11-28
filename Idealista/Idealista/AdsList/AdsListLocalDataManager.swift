@@ -24,7 +24,7 @@ final class AdsListLocalDataManager:AdsListLocalDataManagerInputProtocol {
         var ads = CoreDataManager.shared.fetchAds()
         CoreDataManager.shared.deleteAllAds()
         ads = CoreDataManager.shared.fetchAds()
-        CoreDataManager.shared.saveAd(newAd: ad)
+        CoreDataManager.shared.saveAdList(newAd: ad)
         ads = CoreDataManager.shared.fetchAds()
         ads.forEach { ad in
             print(ad.propertyCode ?? "Sin código")

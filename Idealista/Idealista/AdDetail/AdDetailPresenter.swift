@@ -16,14 +16,19 @@ protocol AdDetailPresenterProtocol: AnyObject {
     var interactor: AdDetailInteractorInputProtocol? { get set }
     var wireFrame: AdDetailWireFrameProtocol? { get set }
     func viewDidLoad()
+    func fetchDetailAd()
+    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat)
+    func saveFavoriteAd(_ ad: HomeAdDetailViewModel)
 }
 
 // Protocol: Interactor -> Presenter
-protocol AdDetailInteractorOutputProtocol: AnyObject { }
+protocol AdDetailInteractorOutputProtocol: AnyObject {
+    func fetchedAdDetail(ad: HomeAdDetailBO)
+}
 
 
 // MARK: - Class
-class AdDetailPresenter  {
+final class AdDetailPresenter  {
     
     weak var view: AdDetailViewProtocol?
     var interactor: AdDetailInteractorInputProtocol?
@@ -31,10 +36,41 @@ class AdDetailPresenter  {
     
 }
 
+
+// Protocol: View -> Presenter
 extension AdDetailPresenter: AdDetailPresenterProtocol {
     
-    func viewDidLoad() { }
+    func viewDidLoad() {
+        guard let view else { return }
+        view.loadUI()
+        self.fetchDetailAd()
+    }
     
+    func fetchDetailAd() {
+        guard let interactor else { return }
+        interactor.fetchDetailAd()
+    }
+    
+    func navigateToMapLocation(latitude: CGFloat, longitude: CGFloat) {
+        guard let wireFrame, let view else { return }
+        wireFrame.navigateToMapLocation(view: view, latitude: latitude, longitude: longitude)
+    }
+    
+    func saveFavoriteAd(_ ad: HomeAdDetailViewModel) {
+        guard let interactor else { return }
+        interactor.saveFavoriteAd(ad)
+    }
 }
 
-extension AdDetailPresenter: AdDetailInteractorOutputProtocol { }
+
+// Protocol: Interactor -> Presenter
+extension AdDetailPresenter: AdDetailInteractorOutputProtocol {
+    
+    func fetchedAdDetail(ad: HomeAdDetailBO) {
+        guard let view else { return }
+        let adDetailVO = HomeAdDetailVO(bo: ad)
+        let adDetailViewModel = HomeAdDetailViewModel(vo: adDetailVO)
+        view.fetchedDetailAd(ad: adDetailViewModel)
+    }
+    
+}

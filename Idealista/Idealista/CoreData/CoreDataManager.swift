@@ -23,7 +23,7 @@ final class CoreDataManager {
     
     // MARK: - CRUD methods of ads list
     // save a new ad
-    func saveAd(newAd: HomeAdListViewModel) {
+    func saveAdList(newAd: HomeAdListViewModel) {
         let ad = AdHomeList(context: self.context)
         ad.direction = newAd.direction
         ad.price = newAd.price
@@ -69,7 +69,55 @@ final class CoreDataManager {
             return []
         }
     }
+    
+    
+    // MARK: - CRUD methods of ad detail
+    // save a new detail ad
+    func saveAdDetail(newAd: HomeAdDetailViewModel) {
+        let ad = AdHomeDetail(context: self.context)
+        ad.adId = Int16(newAd.adId)
+        ad.price = newAd.price
+        ad.propertyType = newAd.propertyType
+        self.saveContext()
+    }
+    
+    // remove the selected ad
+    func removeAd(_ ad: AdHomeDetail) {
+        self.context.delete(ad)
+        self.saveContext()
+    }
+    
+    // remove all ads
+    func deleteAllAdsDetail() {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "AdHomeDetail")
+        do {
+            let objects = try self.context.fetch(fetchRequest)
+            for object in objects {
+                if let objectToDelete = object as? NSManagedObject {
+                    self.context.delete(objectToDelete)
+                }
+            }
+            try self.context.save()
+        } catch let error {
+            print("Error al eliminar los objetos: \(error.localizedDescription)")
+        }
+    }
 
+
+    // fetch all ads
+    func fetchAdsDetail() -> [AdHomeDetail] {
+        let fetchRequest: NSFetchRequest<AdHomeDetail> = AdHomeDetail.fetchRequest()
+        do {
+            let ads = try self.context.fetch(fetchRequest)
+            for ad in ads {
+                print(ad)
+            }
+            return ads
+        } catch {
+            print("Error fetch ads: \(error)")
+            return []
+        }
+    }
 
     
     // MARK: - Private functions

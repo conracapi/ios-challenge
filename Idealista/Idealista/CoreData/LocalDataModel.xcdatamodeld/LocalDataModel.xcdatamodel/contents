@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23231" systemVersion="24B91" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="AdHomeDetail" representedClassName="AdHomeDetail" syncable="YES" codeGenerationType="class">
+        <attribute name="adId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="price" optional="YES" attributeType="String"/>
+        <attribute name="propertyType" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="AdHomeList" representedClassName="AdHomeList" syncable="YES" codeGenerationType="class">
         <attribute name="direction" optional="YES" attributeType="String"/>
         <attribute name="price" optional="YES" attributeType="String"/>

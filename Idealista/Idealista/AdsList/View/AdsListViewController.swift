@@ -35,6 +35,7 @@ final class AdsListViewController: BaseViewController {
     private var homeAds: [HomeAdListViewModel] = []
     private let refreshControl: UIRefreshControl = UIRefreshControl()  // pull to refresh
     
+    // Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let presenter else { return }
