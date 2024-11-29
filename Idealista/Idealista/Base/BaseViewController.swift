@@ -36,9 +36,16 @@ class BaseViewController: UIViewController {
         navController.navigationBar.tintColor = .black
     }
     
-    
     @objc private func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
     }
     
+    func showErrorAlert(title: String) {
+        let alertController = UIAlertController(title: title, message: NSLocalizedString("error", comment: ""), preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(action)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
 }

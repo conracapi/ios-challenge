@@ -31,12 +31,12 @@ final class AdDetailLocalDataManager: AdDetailLocalDataManagerInputProtocol {
         if self.isFavoriteAd(with: String(ad.adId)) {
             CoreDataManager.shared.removeAdDetail(propertyCode: "\(ad.adId)") { [weak self] removed in
                 guard let self, let interactor else { return }
-                removed ? interactor.favoriteAdRemoved() : ()
+                removed ? interactor.favoriteAdRemoved() : interactor.showAlertError()
             }
         } else {
             CoreDataManager.shared.saveAdDetail(newAd: ad) { [weak self] saved, date in
                 guard let self, let interactor else { return }
-                saved ? interactor.favoriteAdSaved(date: date) : ()
+                saved ? interactor.favoriteAdSaved(date: date) : interactor.showAlertError()
             }
         }
         

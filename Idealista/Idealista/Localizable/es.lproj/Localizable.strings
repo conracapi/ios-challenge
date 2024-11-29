@@ -20,3 +20,4 @@
 "with_box_room" = "Con trastero";
 "without_box_room" = "Sin trastero";
 "saved" = "Guardado:";
+"error" = "Ooops! Un error ha ocurrido";

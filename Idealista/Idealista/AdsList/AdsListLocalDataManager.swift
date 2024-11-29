@@ -31,12 +31,12 @@ final class AdsListLocalDataManager: AdsListLocalDataManagerInputProtocol {
         if self.isFavoriteAd(with: ad.propertyCode) {
             CoreDataManager.shared.removeAdList(propertyCode: ad.propertyCode) { [weak self] removed in
                 guard let self, let interactor else { return }
-                removed ? interactor.favoriteAdRemoved(with: ad.propertyCode) : ()
+                removed ? interactor.favoriteAdRemoved(with: ad.propertyCode) : interactor.showAlertError()
             }
         } else {
             CoreDataManager.shared.saveAdList(newAd: ad, saved: { [weak self] saved, date in
                 guard let self, let interactor else { return }
-                saved ? interactor.favoriteAdSaved(with: ad.propertyCode, date: date) : ()
+                saved ? interactor.favoriteAdSaved(with: ad.propertyCode, date: date) : interactor.showAlertError()
             })
         }
         

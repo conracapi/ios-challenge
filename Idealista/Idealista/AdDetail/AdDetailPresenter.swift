@@ -26,6 +26,7 @@ protocol AdDetailInteractorOutputProtocol: AnyObject {
     func fetchedAdDetail(ad: HomeAdDetailBO)
     func favoriteAdSaved(date: Date?)
     func favoriteAdRemoved()
+    func showAlertError()
 }
 
 
@@ -92,5 +93,10 @@ extension AdDetailPresenter: AdDetailInteractorOutputProtocol {
         var updatedViewModel = adDetailViewModel
         updatedViewModel.isFavorite = false
         view.fetchedDetailAd(ad: updatedViewModel)
+    }
+    
+    func showAlertError() {
+        guard let view else { return }
+        view.showAlertError()
     }
 }

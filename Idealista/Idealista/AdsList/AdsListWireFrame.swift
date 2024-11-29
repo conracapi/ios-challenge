@@ -14,6 +14,7 @@ import UIKit
 protocol AdsListWireFrameProtocol: AnyObject {
     static func createAdsListModule() -> UIViewController
     func showAdLocationOnMap(view: AdsListViewProtocol, latitude: CGFloat, longitude: CGFloat)
+    func goToDetail(view: any AdsListViewProtocol)
 }
 
 
@@ -50,6 +51,14 @@ final class AdsListWireFrame: AdsListWireFrameProtocol {
         mapViewController.latitude = latitude
         mapViewController.longitude = longitude
         navController.pushViewController(mapViewController, animated: true)
+    }
+    
+    func goToDetail(view: any AdsListViewProtocol) {
+        guard let view = view as? UIViewController,
+              let navController = view.navigationController
+        else { return }
+        let adDetailViewController = AdDetailWireFrame.createAdDetailModule()
+        navController.pushViewController(adDetailViewController, animated: true)
     }
     
 }

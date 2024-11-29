@@ -17,6 +17,7 @@ protocol AdsListViewProtocol: AnyObject {
     func fetchedAds(_ ads: [HomeAdListViewModel])
     func hideBackButtonNavBar()
     func setFavoriteAd(with index: Int, of ads: [HomeAdListViewModel], date: Date?)
+    func showAlertError()
 }
 
 // Protocol: AdTableViewCell -> View
@@ -95,8 +96,8 @@ extension AdsListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let adDetailViewController = AdDetailWireFrame.createAdDetailModule()
-        self.navigationController?.pushViewController(adDetailViewController, animated: true)
+        guard let presenter else { return }
+        presenter.goToDetailAd()
     }
 }
 
@@ -130,6 +131,10 @@ extension AdsListViewController: AdsListViewProtocol {
     
     func hideBackButtonNavBar() {
         self.navigationItem.leftBarButtonItem = nil
+    }
+    
+    func showAlertError() {
+        self.showErrorAlert(title: "Error")
     }
 }
 

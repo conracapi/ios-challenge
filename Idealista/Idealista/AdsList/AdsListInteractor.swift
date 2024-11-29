@@ -25,6 +25,7 @@ protocol AdsListRemoteDataManagerOutputProtocol: AnyObject { }
 protocol AdsListLocalDataManagerOutputProtocol: AnyObject {
     func favoriteAdSaved(with propertyCode: String, date: Date?)
     func favoriteAdRemoved(with propertyCode: String)
+    func showAlertError()
 }
 
 
@@ -39,7 +40,7 @@ final class AdsListInteractor: AdsListInteractorInputProtocol {
     
     // Protocol functions
     func fetchAllAds() {
-        guard let remoteDatamanager, let localDatamanager else { return }
+        guard let remoteDatamanager, let localDatamanager, let presenter else { return }
         remoteDatamanager.fetchAllAds { [weak self] result in
             guard let self else { return }
             switch result {
@@ -54,7 +55,7 @@ final class AdsListInteractor: AdsListInteractorInputProtocol {
                     }
                     presenter.fetchedAds(adsListBO)
                 case .failure:
-                    break
+                    presenter.showAlertError()
             }
         }
     }
@@ -83,5 +84,10 @@ extension AdsListInteractor: AdsListLocalDataManagerOutputProtocol {
     func favoriteAdRemoved(with propertyCode: String) {
         guard let presenter else { return }
         presenter.favoriteAdRemoved(with: propertyCode)
+    }
+    
+    func showAlertError() {
+        guard let presenter else { return }
+        presenter.showAlertError()
     }
 }

@@ -14,6 +14,7 @@ protocol AdDetailViewProtocol: AnyObject {
     var presenter: AdDetailPresenterProtocol? { get set }
     func loadUI()
     func fetchedDetailAd(ad: HomeAdDetailViewModel)
+    func showAlertError()
 }
 
 
@@ -119,6 +120,10 @@ extension AdDetailViewController: AdDetailViewProtocol {
             self.configureButtons()
             self.setViewStyles()
         }
+    }
+    
+    func showAlertError() {
+        self.showErrorAlert(title: "Error")
     }
     
 }
