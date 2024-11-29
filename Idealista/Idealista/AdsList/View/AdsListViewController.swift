@@ -16,7 +16,7 @@ protocol AdsListViewProtocol: AnyObject {
     func loadUI()
     func fetchedAds(_ ads: [HomeAdListViewModel])
     func hideBackButtonNavBar()
-    func updateCell(with index: Int, of ads: [HomeAdListViewModel])
+    func setFavoriteAd(with index: Int, of ads: [HomeAdListViewModel], date: Date?)
 }
 
 // Protocol: AdTableViewCell -> View
@@ -120,12 +120,12 @@ extension AdsListViewController: AdsListViewProtocol {
         }
     }
     
-    func updateCell(with index: Int, of ads: [HomeAdListViewModel]) {
+    func setFavoriteAd(with index: Int, of ads: [HomeAdListViewModel], date: Date?) {
         self.homeAds = ads
         guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? AdTableViewCell else {
             return
         }
-        cell.updateLikeButton(homeAd: self.homeAds[index])
+        cell.updateFavoriteView(homeAd: self.homeAds[index], date: date)
     }
     
     func hideBackButtonNavBar() {

@@ -40,5 +40,6 @@ extension HomeAdListViewModel {
         self.isFirst = isFirst
         self.isLast = isLast
         self.isFavorite = vo.isFavorite
+        self.dateSavedAsFavorite = vo.dateSavedAsFavorite
     }
 }

@@ -23,7 +23,7 @@ protocol AdsListRemoteDataManagerOutputProtocol: AnyObject { }
 
 // Protocol: LocalDataManager -> Interactor
 protocol AdsListLocalDataManagerOutputProtocol: AnyObject {
-    func favoriteAdSaved(with propertyCode: String)
+    func favoriteAdSaved(with propertyCode: String, date: Date?)
     func favoriteAdRemoved(with propertyCode: String)
 }
 
@@ -39,7 +39,7 @@ final class AdsListInteractor: AdsListInteractorInputProtocol {
     
     // Protocol functions
     func fetchAllAds() {
-        guard let remoteDatamanager else { return }
+        guard let remoteDatamanager, let localDatamanager else { return }
         remoteDatamanager.fetchAllAds { [weak self] result in
             guard let self else { return }
             switch result {
@@ -48,7 +48,8 @@ final class AdsListInteractor: AdsListInteractorInputProtocol {
                     var adsListBO = ads.map { HomeAdListBO(dto: $0) }
                     adsListBO = adsListBO.map { ad in
                         var mutableAd = ad
-                        mutableAd.isFavorite = self.localDatamanager?.isFavoriteAd(with: ad.propertyCode) ?? false
+                        mutableAd.isFavorite = localDatamanager.isFavoriteAd(with: ad.propertyCode)
+                        mutableAd.dateSavedAsFavorite = localDatamanager.fetchAdListDateSaved(by: ad.propertyCode)
                         return mutableAd
                     }
                     presenter.fetchedAds(adsListBO)
@@ -74,9 +75,9 @@ extension AdsListInteractor: AdsListRemoteDataManagerOutputProtocol {
 // Protocol: LocalDataManager -> Interactor
 extension AdsListInteractor: AdsListLocalDataManagerOutputProtocol {
     
-    func favoriteAdSaved(with propertyCode: String) {
+    func favoriteAdSaved(with propertyCode: String, date: Date?) {
         guard let presenter else { return }
-        presenter.favoriteAdSaved(with: propertyCode)
+        presenter.favoriteAdSaved(with: propertyCode, date: date)
     }
     
     func favoriteAdRemoved(with propertyCode: String) {

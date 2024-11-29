@@ -25,7 +25,7 @@ protocol AdsListPresenterProtocol: AnyObject {
 // Protocol: Interactor -> Presenter
 protocol AdsListInteractorOutputProtocol: AnyObject {
     func fetchedAds(_ ads: [HomeAdListBO])
-    func favoriteAdSaved(with propertyCode: String)
+    func favoriteAdSaved(with propertyCode: String, date: Date?)
     func favoriteAdRemoved(with propertyCode: String)
 }
 
@@ -88,15 +88,15 @@ extension AdsListPresenter: AdsListInteractorOutputProtocol {
         view.fetchedAds(self.adsViewModel)
     }
     
-    func favoriteAdSaved(with propertyCode: String) {
+    func favoriteAdSaved(with propertyCode: String, date: Date?) {
         guard let index = adsViewModel.firstIndex(where: { $0.propertyCode == propertyCode }), let view else { return }
         self.adsViewModel[index].isFavorite = true
-        self.view?.updateCell(with: index, of: self.adsViewModel)
+        view.setFavoriteAd(with: index, of: self.adsViewModel, date: date)
     }
     
     func favoriteAdRemoved(with propertyCode: String) {
         guard let index = adsViewModel.firstIndex(where: { $0.propertyCode == propertyCode }), let view else { return }
         self.adsViewModel[index].isFavorite = false
-        self.view?.fetchedAds(self.adsViewModel)
+        view.setFavoriteAd(with: index, of: self.adsViewModel, date: nil)
     }
 }

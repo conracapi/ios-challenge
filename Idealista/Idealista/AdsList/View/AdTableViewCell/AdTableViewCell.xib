@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -30,14 +31,38 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JDr-W3-DpM">
+                                <rect key="frame" x="398" y="270" width="16" height="20"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Foi-pl-AQi">
+                                        <rect key="frame" x="8" y="0.0" width="0.0" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Foi-pl-AQi" secondAttribute="bottom" id="5Pd-lJ-7Mu"/>
+                                    <constraint firstItem="Foi-pl-AQi" firstAttribute="centerX" secondItem="JDr-W3-DpM" secondAttribute="centerX" id="H4j-8y-jda"/>
+                                    <constraint firstAttribute="trailing" secondItem="Foi-pl-AQi" secondAttribute="trailing" constant="8" id="Mow-AA-y7T"/>
+                                    <constraint firstItem="Foi-pl-AQi" firstAttribute="leading" secondItem="JDr-W3-DpM" secondAttribute="leading" constant="8" id="RXI-Gt-vLj"/>
+                                    <constraint firstAttribute="height" constant="20" id="hZe-G9-GYI"/>
+                                    <constraint firstItem="Foi-pl-AQi" firstAttribute="centerY" secondItem="JDr-W3-DpM" secondAttribute="centerY" id="iac-l7-DqJ"/>
+                                    <constraint firstItem="Foi-pl-AQi" firstAttribute="top" secondItem="JDr-W3-DpM" secondAttribute="top" id="xLH-C2-uXk"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="HFs-Pj-MzC" secondAttribute="bottom" id="6bJ-Z4-Pz9"/>
+                            <constraint firstAttribute="trailing" secondItem="JDr-W3-DpM" secondAttribute="trailing" constant="10" id="7te-kq-CT0"/>
                             <constraint firstAttribute="trailing" secondItem="HFs-Pj-MzC" secondAttribute="trailing" id="9ml-qa-eQE"/>
                             <constraint firstItem="HFs-Pj-MzC" firstAttribute="top" secondItem="hau-NM-B4i" secondAttribute="top" id="CfL-to-YrW"/>
                             <constraint firstItem="HFs-Pj-MzC" firstAttribute="leading" secondItem="hau-NM-B4i" secondAttribute="leading" id="Vfw-Eh-t4f"/>
+                            <constraint firstAttribute="bottom" secondItem="JDr-W3-DpM" secondAttribute="bottom" constant="10" id="ZHt-qg-Ax9"/>
                             <constraint firstAttribute="height" constant="300" id="kOt-Wl-ma1"/>
+                            <constraint firstItem="JDr-W3-DpM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hau-NM-B4i" secondAttribute="leading" constant="10" id="y5E-aH-wGu"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G0H-Bf-rwn">
@@ -224,6 +249,8 @@
                 <outlet property="collectionViewHeightConstraint" destination="kOt-Wl-ma1" id="R8I-CB-BXL"/>
                 <outlet property="extraInfoLabel" destination="Hzd-8t-4dO" id="1UP-la-Kpe"/>
                 <outlet property="favoriteAdImageView" destination="zPv-Ci-FpG" id="EJL-H3-vtp"/>
+                <outlet property="favoriteAdSavedLabel" destination="Foi-pl-AQi" id="ZyS-Sn-S9X"/>
+                <outlet property="favoriteAdSavedView" destination="JDr-W3-DpM" id="jXI-16-msU"/>
                 <outlet property="infoView" destination="G0H-Bf-rwn" id="cNq-cd-o1h"/>
                 <outlet property="locationLabel" destination="2Nl-ny-DE8" id="8pd-8w-aEr"/>
                 <outlet property="mapLocationImageView" destination="vY6-2V-yoC" id="xJm-J5-nXm"/>

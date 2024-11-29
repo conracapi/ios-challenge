@@ -32,6 +32,7 @@ struct HomeAdListBO {
     let multimedia: MultimediaBO
     let features: FeaturesBO
     var isFavorite: Bool = false
+    var dateSavedAsFavorite: Date? = nil
 }
 
 struct PriceInfoBO {

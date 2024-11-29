@@ -12,6 +12,8 @@ final class AdTableViewCell: UITableViewCell {
     // MARK: IBOutlets
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var collectionViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var favoriteAdSavedView: UIView!
+    @IBOutlet private weak var favoriteAdSavedLabel: UILabel!
     @IBOutlet private weak var propertyTypeLabel: UILabel!
     @IBOutlet private weak var locationLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
@@ -51,12 +53,13 @@ final class AdTableViewCell: UITableViewCell {
         self.setPhotos()
         self.setupLabelsContent()
         self.configureMapLocationButton()
-        self.configureLikeButton(homeAd: homeAd)
+        self.configureFavoriteAdViews(homeAd: homeAd)
+        self.configureFavoriteAdSavedView()
     }
     
-    func updateLikeButton(homeAd: HomeAdListViewModel) {
+    func updateFavoriteView(homeAd: HomeAdListViewModel, date: Date?) {
         self.homeAd = homeAd
-        self.configureLikeButton(homeAd: homeAd)
+        self.configureFavoriteAdViews(homeAd: homeAd)
     }
     
     // MARK: IBActions private functions
@@ -116,13 +119,25 @@ final class AdTableViewCell: UITableViewCell {
         self.mapLocationImageView.tintColor = .adText
     }
     
-    private func configureLikeButton(homeAd: HomeAdListViewModel) {
+    private func configureFavoriteAdSavedView() {
+        self.favoriteAdSavedView.layer.cornerRadius = 6
+        self.favoriteAdSavedView.backgroundColor = .black.withAlphaComponent(0.5)
+    }
+    
+    private func configureFavoriteAdViews(homeAd: HomeAdListViewModel) {
         if homeAd.isFavorite {
             self.favoriteAdImageView.image = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysTemplate)
             self.favoriteAdImageView.tintColor = .red
+            self.favoriteAdSavedView.isHidden = false
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd/MM/yyyy"
+            let formattedDate = formatter.string(from: homeAd.dateSavedAsFavorite ?? Date())
+            self.favoriteAdSavedLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 15.0), textColor: .adText, text: "\(NSLocalizedString("saved", comment: "")) \(formattedDate)")
         } else {
             self.favoriteAdImageView.image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
             self.favoriteAdImageView.tintColor = .adText
+            self.favoriteAdSavedView.isHidden = true
+            self.favoriteAdSavedLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 15.0), textColor: .adText, text: "")
         }
     }
 }

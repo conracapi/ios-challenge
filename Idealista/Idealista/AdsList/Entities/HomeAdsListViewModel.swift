@@ -19,4 +19,5 @@ struct HomeAdListViewModel {
     let isFirst: Bool
     let isLast: Bool
     var isFavorite: Bool = false
+    var dateSavedAsFavorite: Date? = nil
 }

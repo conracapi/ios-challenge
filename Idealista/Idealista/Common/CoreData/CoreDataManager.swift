@@ -36,7 +36,7 @@ final class CoreDataManager {
 
     
     // save a new ad
-    func saveAdList(newAd: HomeAdListViewModel, saved completion: (Bool) -> (Void)) {
+    func saveAdList(newAd: HomeAdListViewModel, saved completion: (Bool, Date?) -> (Void)) {
         let ad = AdHomeList(context: self.context)
         ad.direction = newAd.direction
         ad.price = newAd.price
@@ -45,9 +45,9 @@ final class CoreDataManager {
         ad.dataSaved = Date()
         do {
             try self.context.save()
-            completion(true)
+            completion(true, ad.dataSaved)
         } catch {
-            completion(false)
+            completion(false, nil)
         }
     }
 
@@ -96,6 +96,19 @@ final class CoreDataManager {
             print("Error fetch ads: \(error)")
         }
     }
+    
+    func fetchAdListDateSaved(by propertyCode: String) -> Date? {
+        let fetchRequest: NSFetchRequest<AdHomeList> = AdHomeList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "propertyCode == %@", propertyCode)
+        do {
+            let results = try context.fetch(fetchRequest)
+            return results.first?.dataSaved
+        } catch {
+            print("Error fetching HomeListAd date for propertyCode \(propertyCode): \(error)")
+            return nil
+        }
+    }
+
     
     
     // MARK: - CRUD methods of ad detail
