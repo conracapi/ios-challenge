@@ -17,4 +17,5 @@ struct HomeAdDetailViewModel {
     let propietaryDescription: String
     let multimedia: [String]
     var isFavorite: Bool = false
+    var dateSavedAsFavorite: Date? = nil
 }

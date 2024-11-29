@@ -24,7 +24,7 @@ protocol AdDetailRemoteDataManagerOutputProtocol: AnyObject { }
 
 // Protocol: LocalDataManager -> Interactor
 protocol AdDetailLocalDataManagerOutputProtocol: AnyObject {
-    func favoriteAdSaved()
+    func favoriteAdSaved(date: Date?)
     func favoriteAdRemoved()
 }
 
@@ -40,14 +40,15 @@ final class AdDetailInteractor: AdDetailInteractorInputProtocol {
 
     // Protocol functions
     func fetchDetailAd() {
-        guard let remoteDatamanager else { return }
+        guard let remoteDatamanager, let localDatamanager else { return }
         remoteDatamanager.fetchDetailAd { [weak self] result in
             guard let self else { return }
             switch result {
                 case .success(let detailAd):
                     guard let presenter = self.presenter else { return }
                     var detailAdBO = HomeAdDetailBO(dto: detailAd)
-                    detailAdBO.isFavorite = self.localDatamanager?.isFavoriteAd(with: "\(detailAdBO.adid)") ?? false
+                    detailAdBO.isFavorite = self.localDatamanager?.isFavoriteAd(with: String(detailAdBO.adid)) ?? false
+                    detailAdBO.dateSavedAsFavorite = localDatamanager.fetchAdDetailDateSaved(by: String(detailAd.adid))
                     presenter.fetchedAdDetail(ad: detailAdBO)
                 case .failure:
                     break
@@ -69,9 +70,9 @@ extension AdDetailInteractor: AdDetailRemoteDataManagerOutputProtocol { }
 // Protocol: LocalDataManager -> Interactor
 extension AdDetailInteractor: AdDetailLocalDataManagerOutputProtocol {
     
-    func favoriteAdSaved() {
+    func favoriteAdSaved(date: Date?) {
         guard let presenter else { return }
-        presenter.favoriteAdSaved()
+        presenter.favoriteAdSaved(date: date)
     }
     
     func favoriteAdRemoved() {

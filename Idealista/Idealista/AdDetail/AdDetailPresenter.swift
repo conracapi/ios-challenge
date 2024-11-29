@@ -24,7 +24,7 @@ protocol AdDetailPresenterProtocol: AnyObject {
 // Protocol: Interactor -> Presenter
 protocol AdDetailInteractorOutputProtocol: AnyObject {
     func fetchedAdDetail(ad: HomeAdDetailBO)
-    func favoriteAdSaved()
+    func favoriteAdSaved(date: Date?)
     func favoriteAdRemoved()
 }
 
@@ -79,10 +79,11 @@ extension AdDetailPresenter: AdDetailInteractorOutputProtocol {
         view.fetchedDetailAd(ad: adDetailViewModel)
     }
     
-    func favoriteAdSaved() {
+    func favoriteAdSaved(date: Date?) {
         guard let view, let adDetailViewModel else { return }
         var updatedViewModel = adDetailViewModel
         updatedViewModel.isFavorite = true
+        updatedViewModel.dateSavedAsFavorite = date
         view.fetchedDetailAd(ad: updatedViewModel)
     }
     

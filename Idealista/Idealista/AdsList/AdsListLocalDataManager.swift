@@ -28,7 +28,6 @@ final class AdsListLocalDataManager: AdsListLocalDataManagerInputProtocol {
     
     // Protocol functions
     func favoriteAdAction(_ ad: HomeAdListViewModel) {
-        CoreDataManager.shared.fetchAds()
         if self.isFavoriteAd(with: ad.propertyCode) {
             CoreDataManager.shared.removeAdList(propertyCode: ad.propertyCode) { [weak self] removed in
                 guard let self, let interactor else { return }

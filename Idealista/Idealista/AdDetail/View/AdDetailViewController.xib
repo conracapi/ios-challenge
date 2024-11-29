@@ -13,6 +13,8 @@
             <connections>
                 <outlet property="collectionView" destination="O8B-nv-zhp" id="0Jr-Vu-Q0a"/>
                 <outlet property="favoriteAdImageView" destination="OfO-ai-lmg" id="cAW-Bu-vDL"/>
+                <outlet property="favoriteAdSavedLabel" destination="3d1-26-VBM" id="yxJ-VI-uht"/>
+                <outlet property="favoriteAdSavedView" destination="6kq-xG-fyp" id="v76-NV-8Le"/>
                 <outlet property="firstSeparatorView" destination="yYB-Tr-IJ2" id="QlC-7d-iFl"/>
                 <outlet property="homeAdDescriptionLabel" destination="moe-VY-Fvm" id="rBC-a6-Y1h"/>
                 <outlet property="mapLocationImageView" destination="KZN-O4-QO6" id="cpO-Mh-ILf"/>
@@ -50,13 +52,37 @@
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             </collectionViewFlowLayout>
                                         </collectionView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6kq-xG-fyp">
+                                            <rect key="frame" x="367" y="320" width="16" height="20"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3d1-26-VBM">
+                                                    <rect key="frame" x="8" y="0.0" width="0.0" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="3d1-26-VBM" secondAttribute="trailing" constant="8" id="7Vh-O5-oQY"/>
+                                                <constraint firstAttribute="bottom" secondItem="3d1-26-VBM" secondAttribute="bottom" id="9tE-Jd-sb7"/>
+                                                <constraint firstAttribute="height" constant="20" id="H9T-6g-Gxs"/>
+                                                <constraint firstItem="3d1-26-VBM" firstAttribute="top" secondItem="6kq-xG-fyp" secondAttribute="top" id="QAj-XT-xet"/>
+                                                <constraint firstItem="3d1-26-VBM" firstAttribute="centerY" secondItem="6kq-xG-fyp" secondAttribute="centerY" id="UNF-0W-Gc8"/>
+                                                <constraint firstItem="3d1-26-VBM" firstAttribute="centerX" secondItem="6kq-xG-fyp" secondAttribute="centerX" id="WQT-MT-rwL"/>
+                                                <constraint firstItem="3d1-26-VBM" firstAttribute="leading" secondItem="6kq-xG-fyp" secondAttribute="leading" constant="8" id="xx0-DB-UtQ"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="O8B-nv-zhp" secondAttribute="trailing" id="1SN-ns-xJw"/>
+                                        <constraint firstAttribute="bottom" secondItem="6kq-xG-fyp" secondAttribute="bottom" constant="10" id="KQO-sa-2Yq"/>
                                         <constraint firstAttribute="bottom" secondItem="O8B-nv-zhp" secondAttribute="bottom" id="KuD-y9-YxW"/>
                                         <constraint firstItem="O8B-nv-zhp" firstAttribute="top" secondItem="806-2g-2RU" secondAttribute="top" id="VSj-me-5qL"/>
                                         <constraint firstItem="O8B-nv-zhp" firstAttribute="leading" secondItem="806-2g-2RU" secondAttribute="leading" id="pLE-Sy-jaQ"/>
+                                        <constraint firstItem="6kq-xG-fyp" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="806-2g-2RU" secondAttribute="leading" constant="10" id="ush-ld-RkN"/>
+                                        <constraint firstAttribute="trailing" secondItem="6kq-xG-fyp" secondAttribute="trailing" constant="10" id="wTr-1z-BG8"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eBn-3R-Bzi" userLabel="InfoView">

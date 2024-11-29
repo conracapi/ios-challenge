@@ -23,6 +23,7 @@ struct HomeAdDetailVO {
     let moreCharacteristics: CharacteristicsVO
     let energyCertification: EnergyCertificationVO
     var isFavorite: Bool = false
+    var dateSavedAsFavorite: Date? = nil
 }
 
 struct UbicationVO {

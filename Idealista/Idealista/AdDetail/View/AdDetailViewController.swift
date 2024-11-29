@@ -22,6 +22,8 @@ final class AdDetailViewController: BaseViewController {
     
     // IBOutlets
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var favoriteAdSavedView: UIView!
+    @IBOutlet private weak var favoriteAdSavedLabel: UILabel!
     @IBOutlet private weak var propertyTypeLabel: UILabel!
     @IBOutlet private weak var mapLocationImageView: UIImageView!
     @IBOutlet private weak var priceLabel: UILabel!
@@ -68,15 +70,27 @@ final class AdDetailViewController: BaseViewController {
         self.homeAdDescriptionLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 15.0), textColor: .adText, text: adDetail.homeAdDescription)
     }
     
+    private func configureFavoriteAdSavedView() {
+        self.favoriteAdSavedView.layer.cornerRadius = 6
+        self.favoriteAdSavedView.backgroundColor = .black.withAlphaComponent(0.5)
+    }
+    
     private func configureButtons() {
         self.mapLocationImageView.image = UIImage(systemName: "location.circle")?.withRenderingMode(.alwaysTemplate)
         self.mapLocationImageView.tintColor = .adText
         if self.adDetailViewModel?.isFavorite ?? false {
             self.favoriteAdImageView.image = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysTemplate)
             self.favoriteAdImageView.tintColor = .red
+            self.favoriteAdSavedView.isHidden = false
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd/MM/yyyy"
+            let formattedDate = formatter.string(from: adDetailViewModel?.dateSavedAsFavorite ?? Date())
+            self.favoriteAdSavedLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 15.0), textColor: .adText, text: "\(NSLocalizedString("saved", comment: "")) \(formattedDate)")
         } else {
             self.favoriteAdImageView.image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
             self.favoriteAdImageView.tintColor = .adText
+            self.favoriteAdSavedView.isHidden = true
+            self.favoriteAdSavedLabel.setStyle(font: .kohinoorBanglaSemibold(withSize: 15.0), textColor: .adText, text: "")
         }
     }
     
@@ -93,6 +107,7 @@ extension AdDetailViewController: AdDetailViewProtocol {
     
     func loadUI() {
         self.configureCollectionView()
+        self.configureFavoriteAdSavedView()
     }
     
     func fetchedDetailAd(ad: HomeAdDetailViewModel) {

@@ -120,7 +120,7 @@ final class CoreDataManager {
     }
     
     // save a new detail ad
-    func saveAdDetail(newAd: HomeAdDetailViewModel, saved completion: (Bool) -> (Void)) {
+    func saveAdDetail(newAd: HomeAdDetailViewModel, saved completion: (Bool, Date?) -> (Void)) {
         let ad = AdHomeDetail(context: self.context)
         ad.adId = Int16(newAd.adId)
         ad.price = newAd.price
@@ -128,9 +128,9 @@ final class CoreDataManager {
         ad.dataSaved = Date()
         do {
             try self.context.save()
-            completion(true)
+            completion(true, ad.dataSaved)
         } catch {
-            completion(false)
+            completion(false, nil)
         }
     }
     
@@ -164,7 +164,6 @@ final class CoreDataManager {
         }
     }
 
-
     // fetch all ads
     func fetchAdsDetail() -> [AdHomeDetail] {
         let fetchRequest: NSFetchRequest<AdHomeDetail> = AdHomeDetail.fetchRequest()
@@ -177,6 +176,18 @@ final class CoreDataManager {
         } catch {
             print("Error fetch ads: \(error)")
             return []
+        }
+    }
+    
+    func fetchAdDetailDateSaved(by propertyCode: String) -> Date? {
+        let fetchRequest: NSFetchRequest<AdHomeDetail> = AdHomeDetail.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "adId == %@", propertyCode)
+        do {
+            let results = try context.fetch(fetchRequest)
+            return results.first?.dataSaved
+        } catch {
+            print("Error fetching HomeListAd date for propertyCode \(propertyCode): \(error)")
+            return nil
         }
     }
 

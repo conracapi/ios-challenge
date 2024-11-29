@@ -15,6 +15,7 @@ protocol AdDetailLocalDataManagerInputProtocol: AnyObject {
     var interactor: AdDetailLocalDataManagerOutputProtocol? { get set }
     func favoriteAdAction(_ ad: HomeAdDetailViewModel)
     func isFavoriteAd(with propertyCode: String) -> Bool
+    func fetchAdDetailDateSaved(by propertyCode: String) -> Date?
 }
 
 
@@ -33,9 +34,9 @@ final class AdDetailLocalDataManager: AdDetailLocalDataManagerInputProtocol {
                 removed ? interactor.favoriteAdRemoved() : ()
             }
         } else {
-            CoreDataManager.shared.saveAdDetail(newAd: ad) { [weak self] saved in
+            CoreDataManager.shared.saveAdDetail(newAd: ad) { [weak self] saved, date in
                 guard let self, let interactor else { return }
-                saved ? interactor.favoriteAdSaved() : ()
+                saved ? interactor.favoriteAdSaved(date: date) : ()
             }
         }
         
@@ -43,6 +44,10 @@ final class AdDetailLocalDataManager: AdDetailLocalDataManagerInputProtocol {
     
     func isFavoriteAd(with propertyCode: String) -> Bool {
         return CoreDataManager.shared.isFavoriteAdDetail(propertyCode: propertyCode)
+    }
+    
+    func fetchAdDetailDateSaved(by propertyCode: String) -> Date? {
+        return CoreDataManager.shared.fetchAdDetailDateSaved(by: propertyCode)
     }
     
 }
