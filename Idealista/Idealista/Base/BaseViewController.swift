@@ -41,11 +41,12 @@ class BaseViewController: UIViewController {
     }
     
     func showErrorAlert(title: String) {
-        let alertController = UIAlertController(title: title, message: NSLocalizedString("error", comment: ""), preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(action)
-        
-        self.present(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let alertController = UIAlertController(title: title, message: NSLocalizedString("error", comment: ""), preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(action)
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 }

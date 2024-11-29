@@ -43,7 +43,6 @@ final class AdDetailInteractor: AdDetailInteractorInputProtocol {
     func fetchDetailAd() {
         guard let remoteDatamanager, let localDatamanager, let presenter else { return }
         remoteDatamanager.fetchDetailAd { [weak self] result in
-            guard let self else { return }
             switch result {
                 case .success(let detailAd):
                     var detailAdBO = HomeAdDetailBO(dto: detailAd)
