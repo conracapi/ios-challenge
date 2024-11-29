@@ -16,12 +16,13 @@ protocol AdsListViewProtocol: AnyObject {
     func loadUI()
     func fetchedAds(_ ads: [HomeAdListViewModel])
     func hideBackButtonNavBar()
+    func updateCell(with index: Int, of ads: [HomeAdListViewModel])
 }
 
 // Protocol: AdTableViewCell -> View
 protocol AdTableViewCellProtocol: AnyObject {
     func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat)
-    func saveFavoriteAd(_ ad: HomeAdListViewModel)
+    func favoriteAdAction(_ ad: HomeAdListViewModel)
 }
 
 
@@ -119,6 +120,14 @@ extension AdsListViewController: AdsListViewProtocol {
         }
     }
     
+    func updateCell(with index: Int, of ads: [HomeAdListViewModel]) {
+        self.homeAds = ads
+        guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? AdTableViewCell else {
+            return
+        }
+        cell.updateLikeButton(homeAd: self.homeAds[index])
+    }
+    
     func hideBackButtonNavBar() {
         self.navigationItem.leftBarButtonItem = nil
     }
@@ -133,8 +142,8 @@ extension AdsListViewController: AdTableViewCellProtocol {
         presenter.showAdLocationOnMap(latitude: latitude, longitude: longitude)
     }
     
-    func saveFavoriteAd(_ ad: HomeAdListViewModel) {
+    func favoriteAdAction(_ ad: HomeAdListViewModel) {
         guard let presenter else { return }
-        presenter.saveFavoriteAd(ad)
+        presenter.favoriteAdAction(ad)
     }
 }

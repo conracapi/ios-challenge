@@ -31,6 +31,7 @@ struct HomeAdListVO {
     let description: String
     let multimedia: MultimediaVO
     let features: FeaturesVO
+    var isFavorite: Bool = false
 }
 
 struct PriceInfoVO {

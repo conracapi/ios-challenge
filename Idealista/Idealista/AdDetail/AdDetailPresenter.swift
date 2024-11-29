@@ -18,12 +18,14 @@ protocol AdDetailPresenterProtocol: AnyObject {
     func viewDidLoad()
     func fetchDetailAd()
     func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat)
-    func saveFavoriteAd(_ ad: HomeAdDetailViewModel)
+    func favoriteAdAction(_ ad: HomeAdDetailViewModel)
 }
 
 // Protocol: Interactor -> Presenter
 protocol AdDetailInteractorOutputProtocol: AnyObject {
     func fetchedAdDetail(ad: HomeAdDetailBO)
+    func favoriteAdSaved()
+    func favoriteAdRemoved()
 }
 
 
@@ -34,6 +36,8 @@ final class AdDetailPresenter  {
     weak var view: AdDetailViewProtocol?
     var interactor: AdDetailInteractorInputProtocol?
     var wireFrame: AdDetailWireFrameProtocol?
+    
+    private var adDetailViewModel: HomeAdDetailViewModel?
     
 }
 
@@ -57,21 +61,35 @@ extension AdDetailPresenter: AdDetailPresenterProtocol {
         wireFrame.showAdLocationOnMap(view: view, latitude: latitude, longitude: longitude)
     }
     
-    func saveFavoriteAd(_ ad: HomeAdDetailViewModel) {
+    func favoriteAdAction(_ ad: HomeAdDetailViewModel) {
         guard let interactor else { return }
-        interactor.saveFavoriteAd(ad)
+        interactor.favoriteAdAction(ad)
     }
 }
 
 
 // Protocol: Interactor -> Presenter
 extension AdDetailPresenter: AdDetailInteractorOutputProtocol {
-    
+
     func fetchedAdDetail(ad: HomeAdDetailBO) {
         guard let view else { return }
         let adDetailVO = HomeAdDetailVO(bo: ad)
-        let adDetailViewModel = HomeAdDetailViewModel(vo: adDetailVO)
+        self.adDetailViewModel = HomeAdDetailViewModel(vo: adDetailVO)
+        guard let adDetailViewModel else { return }
         view.fetchedDetailAd(ad: adDetailViewModel)
     }
     
+    func favoriteAdSaved() {
+        guard let view, let adDetailViewModel else { return }
+        var updatedViewModel = adDetailViewModel
+        updatedViewModel.isFavorite = true
+        view.fetchedDetailAd(ad: updatedViewModel)
+    }
+    
+    func favoriteAdRemoved() {
+        guard let view, let adDetailViewModel else { return }
+        var updatedViewModel = adDetailViewModel
+        updatedViewModel.isFavorite = false
+        view.fetchedDetailAd(ad: updatedViewModel)
+    }
 }

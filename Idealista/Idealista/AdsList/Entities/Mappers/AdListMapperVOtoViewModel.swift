@@ -39,5 +39,6 @@ extension HomeAdListViewModel {
         self.additionalInfo = floor + "\n" + size + "\n" + rooms + "\n" + bathrooms + "\n" + exterior + "\n" + airConditioning + "\n" + boxRoom
         self.isFirst = isFirst
         self.isLast = isLast
+        self.isFavorite = vo.isFavorite
     }
 }

@@ -22,6 +22,7 @@ struct HomeAdDetailVO {
     let country: String
     let moreCharacteristics: CharacteristicsVO
     let energyCertification: EnergyCertificationVO
+    var isFavorite: Bool = false
 }
 
 struct UbicationVO {

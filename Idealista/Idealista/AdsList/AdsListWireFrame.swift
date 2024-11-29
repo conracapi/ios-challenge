@@ -24,7 +24,7 @@ final class AdsListWireFrame: AdsListWireFrameProtocol {
         // Initializing VIPER module variables
         let view = AdsListViewController(nibName: String(describing: AdsListViewController.self), bundle: nil)
         let presenter: AdsListPresenterProtocol & AdsListInteractorOutputProtocol = AdsListPresenter()
-        let interactor: AdsListInteractorInputProtocol & AdsListRemoteDataManagerOutputProtocol = AdsListInteractor()
+        let interactor: AdsListInteractorInputProtocol & AdsListRemoteDataManagerOutputProtocol & AdsListLocalDataManagerOutputProtocol = AdsListInteractor()
         let localDataManager: AdsListLocalDataManagerInputProtocol = AdsListLocalDataManager()
         let remoteDataManager: AdsListRemoteDataManagerInputProtocol = AdsListRemoteDataManager()
         let wireFrame: AdsListWireFrameProtocol = AdsListWireFrame()
@@ -36,6 +36,7 @@ final class AdsListWireFrame: AdsListWireFrameProtocol {
         interactor.presenter = presenter
         interactor.localDatamanager = localDataManager
         interactor.remoteDatamanager = remoteDataManager
+        localDataManager.interactor = interactor
         remoteDataManager.remoteRequestHandler = interactor
         return view
     }

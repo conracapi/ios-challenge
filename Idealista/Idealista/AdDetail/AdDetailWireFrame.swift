@@ -25,7 +25,7 @@ final class AdDetailWireFrame: AdDetailWireFrameProtocol {
     class func createAdDetailModule() -> UIViewController {
         let view = AdDetailViewController(nibName: String(describing: AdDetailViewController.self), bundle: nil)
         let presenter: AdDetailPresenterProtocol & AdDetailInteractorOutputProtocol = AdDetailPresenter()
-        let interactor: AdDetailInteractorInputProtocol & AdDetailRemoteDataManagerOutputProtocol = AdDetailInteractor()
+        let interactor: AdDetailInteractorInputProtocol & AdDetailRemoteDataManagerOutputProtocol & AdDetailLocalDataManagerOutputProtocol = AdDetailInteractor()
         let localDataManager: AdDetailLocalDataManagerInputProtocol = AdDetailLocalDataManager()
         let remoteDataManager: AdDetailRemoteDataManagerInputProtocol = AdDetailRemoteDataManager()
         let wireFrame: AdDetailWireFrameProtocol = AdDetailWireFrame()
@@ -36,6 +36,7 @@ final class AdDetailWireFrame: AdDetailWireFrameProtocol {
         interactor.presenter = presenter
         interactor.localDatamanager = localDataManager
         interactor.remoteDatamanager = remoteDataManager
+        localDataManager.interactor = interactor
         remoteDataManager.remoteRequestHandler = interactor
         return view
     }

@@ -50,7 +50,13 @@ final class AdTableViewCell: UITableViewCell {
         self.setStyles()
         self.setPhotos()
         self.setupLabelsContent()
-        self.configureButtons()
+        self.configureMapLocationButton()
+        self.configureLikeButton(homeAd: homeAd)
+    }
+    
+    func updateLikeButton(homeAd: HomeAdListViewModel) {
+        self.homeAd = homeAd
+        self.configureLikeButton(homeAd: homeAd)
     }
     
     // MARK: IBActions private functions
@@ -59,9 +65,9 @@ final class AdTableViewCell: UITableViewCell {
         delegate.showAdLocationOnMap(latitude: homeAd.location.coordinate.latitude, longitude: homeAd.location.coordinate.longitude)
     }
     
-    @IBAction private func saveFavoriteAd(_ sender: Any) {
+    @IBAction private func favoriteAdAction(_ sender: Any) {
         guard let delegate, let homeAd else { return }
-        delegate.saveFavoriteAd(homeAd)
+        delegate.favoriteAdAction(homeAd)
     }
     
     // MARK: Private functions
@@ -105,13 +111,19 @@ final class AdTableViewCell: UITableViewCell {
         self.extraInfoLabel.setStyle(font: .kohinoorBanglaLight(withSize: 15.0), textColor: .adText, text: homeAd.additionalInfo)
     }
     
-    private func configureButtons() {
+    private func configureMapLocationButton() {
         self.mapLocationImageView.image = UIImage(systemName: "location.circle")?.withRenderingMode(.alwaysTemplate)
         self.mapLocationImageView.tintColor = .adText
-        // heart -> corazón vacío
-        // heart.fill -> corazón lleno
-        self.favoriteAdImageView.image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
-        self.favoriteAdImageView.tintColor = .adText
+    }
+    
+    private func configureLikeButton(homeAd: HomeAdListViewModel) {
+        if homeAd.isFavorite {
+            self.favoriteAdImageView.image = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysTemplate)
+            self.favoriteAdImageView.tintColor = .red
+        } else {
+            self.favoriteAdImageView.image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
+            self.favoriteAdImageView.tintColor = .adText
+        }
     }
 }
 

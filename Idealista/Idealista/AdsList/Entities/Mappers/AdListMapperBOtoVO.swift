@@ -31,6 +31,7 @@ extension HomeAdListVO {
         self.priceInfo = PriceInfoVO(bo: bo.priceInfo)
         self.multimedia = MultimediaVO(bo: bo.multimedia)
         self.features = FeaturesVO(bo: bo.features)
+        self.isFavorite = bo.isFavorite
     }
 }
 

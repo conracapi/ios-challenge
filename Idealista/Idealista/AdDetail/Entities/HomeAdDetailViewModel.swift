@@ -16,4 +16,5 @@ struct HomeAdDetailViewModel {
     let homeAdDescription: String
     let propietaryDescription: String
     let multimedia: [String]
+    var isFavorite: Bool = false
 }

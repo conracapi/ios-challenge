@@ -48,9 +48,9 @@ final class AdDetailViewController: BaseViewController {
         presenter.showAdLocationOnMap(latitude: ad.location.coordinate.latitude , longitude: ad.location.coordinate.longitude)
     }
     
-    @IBAction private func saveFavoriteAd(_ sender: Any) {
+    @IBAction private func favoriteAdAction(_ sender: Any) {
         guard let presenter, let ad = self.adDetailViewModel else { return }
-        presenter.saveFavoriteAd(ad)
+        presenter.favoriteAdAction(ad)
     }
     
     // Private functions
@@ -71,8 +71,13 @@ final class AdDetailViewController: BaseViewController {
     private func configureButtons() {
         self.mapLocationImageView.image = UIImage(systemName: "location.circle")?.withRenderingMode(.alwaysTemplate)
         self.mapLocationImageView.tintColor = .adText
-        self.favoriteAdImageView.image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
-        self.favoriteAdImageView.tintColor = .adText
+        if self.adDetailViewModel?.isFavorite ?? false {
+            self.favoriteAdImageView.image = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysTemplate)
+            self.favoriteAdImageView.tintColor = .red
+        } else {
+            self.favoriteAdImageView.image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
+            self.favoriteAdImageView.tintColor = .adText
+        }
     }
     
     private func setViewStyles() {

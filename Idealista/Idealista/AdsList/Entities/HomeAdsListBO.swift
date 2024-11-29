@@ -31,6 +31,7 @@ struct HomeAdListBO {
     let description: String
     let multimedia: MultimediaBO
     let features: FeaturesBO
+    var isFavorite: Bool = false
 }
 
 struct PriceInfoBO {

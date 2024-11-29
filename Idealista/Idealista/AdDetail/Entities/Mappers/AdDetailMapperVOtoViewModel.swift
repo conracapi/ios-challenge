@@ -30,6 +30,7 @@ extension HomeAdDetailViewModel {
         self.multimedia = vo.multimedia.images.map { $0.url }
         self.propietaryDescription = vo.propertyComment
         self.homeAdDescription = "Esta es la descrición de la casa."
+        self.isFavorite = vo.isFavorite
         /*let floor = "-  \(vo.floor)ª \(NSLocalizedString("floor", comment: ""))."
         let size = "-  \(vo.size) m² \(NSLocalizedString("of_area", comment: ""))."
         let rooms = "-  \(vo.rooms) \(NSLocalizedString("rooms", comment: ""))."

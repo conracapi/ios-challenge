@@ -18,4 +18,5 @@ struct HomeAdListViewModel {
     let additionalInfo: String
     let isFirst: Bool
     let isLast: Bool
+    var isFavorite: Bool = false
 }

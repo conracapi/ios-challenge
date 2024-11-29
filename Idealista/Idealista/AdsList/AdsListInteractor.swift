@@ -15,11 +15,17 @@ protocol AdsListInteractorInputProtocol: AnyObject {
     var localDatamanager: AdsListLocalDataManagerInputProtocol? { get set }
     var remoteDatamanager: AdsListRemoteDataManagerInputProtocol? { get set }
     func fetchAllAds()
-    func saveFavoriteAd(_ ad: HomeAdListViewModel)
+    func favoriteAdAction(_ ad: HomeAdListViewModel)
 }
 
 // Protocol: RemoteDataManager -> Interactor
 protocol AdsListRemoteDataManagerOutputProtocol: AnyObject { }
+
+// Protocol: LocalDataManager -> Interactor
+protocol AdsListLocalDataManagerOutputProtocol: AnyObject {
+    func favoriteAdSaved(with propertyCode: String)
+    func favoriteAdRemoved(with propertyCode: String)
+}
 
 
 // MARK: - Class
@@ -39,7 +45,12 @@ final class AdsListInteractor: AdsListInteractorInputProtocol {
             switch result {
                 case .success(let ads):
                     guard let presenter = self.presenter else { return }
-                    let adsListBO = ads.map { (HomeAdListBO(dto: $0)) }
+                    var adsListBO = ads.map { HomeAdListBO(dto: $0) }
+                    adsListBO = adsListBO.map { ad in
+                        var mutableAd = ad
+                        mutableAd.isFavorite = self.localDatamanager?.isFavoriteAd(with: ad.propertyCode) ?? false
+                        return mutableAd
+                    }
                     presenter.fetchedAds(adsListBO)
                 case .failure:
                     break
@@ -47,9 +58,9 @@ final class AdsListInteractor: AdsListInteractorInputProtocol {
         }
     }
     
-    func saveFavoriteAd(_ ad: HomeAdListViewModel) {
+    func favoriteAdAction(_ ad: HomeAdListViewModel) {
         guard let localDatamanager else { return }
-        localDatamanager.saveFavoriteAd(ad)
+        localDatamanager.favoriteAdAction(ad)
     }
 }
 
@@ -57,4 +68,19 @@ final class AdsListInteractor: AdsListInteractorInputProtocol {
 // Protocol: RemoteDataManager -> Interactor
 extension AdsListInteractor: AdsListRemoteDataManagerOutputProtocol {
     
+}
+
+
+// Protocol: LocalDataManager -> Interactor
+extension AdsListInteractor: AdsListLocalDataManagerOutputProtocol {
+    
+    func favoriteAdSaved(with propertyCode: String) {
+        guard let presenter else { return }
+        presenter.favoriteAdSaved(with: propertyCode)
+    }
+    
+    func favoriteAdRemoved(with propertyCode: String) {
+        guard let presenter else { return }
+        presenter.favoriteAdRemoved(with: propertyCode)
+    }
 }

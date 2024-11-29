@@ -24,6 +24,7 @@ extension HomeAdDetailVO {
         self.country = bo.country
         self.moreCharacteristics = CharacteristicsVO(bo: bo.moreCharacteristics)
         self.energyCertification = EnergyCertificationVO(bo: bo.energyCertification)
+        self.isFavorite = bo.isFavorite
     }
 }
 

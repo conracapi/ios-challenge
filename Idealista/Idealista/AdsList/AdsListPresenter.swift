@@ -18,13 +18,15 @@ protocol AdsListPresenterProtocol: AnyObject {
     func viewDidLoad()
     func viewWillAppear()
     func fetchAllAds()
-    func saveFavoriteAd(_ ad: HomeAdListViewModel)
+    func favoriteAdAction(_ ad: HomeAdListViewModel)
     func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat)
 }
 
 // Protocol: Interactor -> Presenter
 protocol AdsListInteractorOutputProtocol: AnyObject {
     func fetchedAds(_ ads: [HomeAdListBO])
+    func favoriteAdSaved(with propertyCode: String)
+    func favoriteAdRemoved(with propertyCode: String)
 }
 
 
@@ -37,18 +39,8 @@ final class AdsListPresenter  {
     var wireFrame: AdsListWireFrameProtocol?
     
     // Owner vars
-    private var ads: [HomeAdListVO] = []
-    
-    // Private functions
-    private func getAdViewModels() -> [HomeAdListViewModel] {
-        return self.ads.enumerated().map { index, ad in
-            HomeAdListViewModel(
-                vo: ad,
-                isFirst: index == 0,
-                isLast: index == ads.count - 1
-            )
-        }
-    }
+    private var adsVO: [HomeAdListVO] = []
+    private var adsViewModel: [HomeAdListViewModel] = []
 }
 
 
@@ -71,16 +63,15 @@ extension AdsListPresenter: AdsListPresenterProtocol {
         interactor.fetchAllAds()
     }
     
-    func saveFavoriteAd(_ ad: HomeAdListViewModel) {
+    func favoriteAdAction(_ ad: HomeAdListViewModel) {
         guard let interactor else { return }
-        interactor.saveFavoriteAd(ad)
+        interactor.favoriteAdAction(ad)
     }
     
     func showAdLocationOnMap(latitude: CGFloat, longitude: CGFloat) {
         guard let view = self.view, let wireFrame = self.wireFrame else { return }
         wireFrame.showAdLocationOnMap(view: view, latitude: latitude, longitude: longitude)
     }
-    
 }
 
 
@@ -90,9 +81,22 @@ extension AdsListPresenter: AdsListInteractorOutputProtocol {
     func fetchedAds(_ ads: [HomeAdListBO]) {
         guard let view else { return }
         let adsListVO = ads.map { HomeAdListVO(bo: $0) }
-        self.ads = adsListVO
-        let viewModels = self.getAdViewModels()
-        view.fetchedAds(viewModels)
+        self.adsVO = adsListVO
+        self.adsViewModel = self.adsVO.enumerated().map { index, ad in
+            HomeAdListViewModel(vo: ad, isFirst: index == 0, isLast: index == adsVO.count - 1)
+        }
+        view.fetchedAds(self.adsViewModel)
     }
     
+    func favoriteAdSaved(with propertyCode: String) {
+        guard let index = adsViewModel.firstIndex(where: { $0.propertyCode == propertyCode }), let view else { return }
+        self.adsViewModel[index].isFavorite = true
+        self.view?.updateCell(with: index, of: self.adsViewModel)
+    }
+    
+    func favoriteAdRemoved(with propertyCode: String) {
+        guard let index = adsViewModel.firstIndex(where: { $0.propertyCode == propertyCode }), let view else { return }
+        self.adsViewModel[index].isFavorite = false
+        self.view?.fetchedAds(self.adsViewModel)
+    }
 }

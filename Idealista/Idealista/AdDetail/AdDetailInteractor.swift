@@ -16,11 +16,17 @@ protocol AdDetailInteractorInputProtocol: AnyObject {
     var localDatamanager: AdDetailLocalDataManagerInputProtocol? { get set }
     var remoteDatamanager: AdDetailRemoteDataManagerInputProtocol? { get set }
     func fetchDetailAd()
-    func saveFavoriteAd(_ ad: HomeAdDetailViewModel)
+    func favoriteAdAction(_ ad: HomeAdDetailViewModel)
 }
 
 // Protocol: RemoteDataManager -> Interactor
 protocol AdDetailRemoteDataManagerOutputProtocol: AnyObject { }
+
+// Protocol: LocalDataManager -> Interactor
+protocol AdDetailLocalDataManagerOutputProtocol: AnyObject {
+    func favoriteAdSaved()
+    func favoriteAdRemoved()
+}
 
 
 // MARK: - Class
@@ -40,7 +46,8 @@ final class AdDetailInteractor: AdDetailInteractorInputProtocol {
             switch result {
                 case .success(let detailAd):
                     guard let presenter = self.presenter else { return }
-                    let detailAdBO = HomeAdDetailBO(dto: detailAd)
+                    var detailAdBO = HomeAdDetailBO(dto: detailAd)
+                    detailAdBO.isFavorite = self.localDatamanager?.isFavoriteAd(with: "\(detailAdBO.adid)") ?? false
                     presenter.fetchedAdDetail(ad: detailAdBO)
                 case .failure:
                     break
@@ -48,12 +55,27 @@ final class AdDetailInteractor: AdDetailInteractorInputProtocol {
         }
     }
     
-    func saveFavoriteAd(_ ad: HomeAdDetailViewModel) {
+    func favoriteAdAction(_ ad: HomeAdDetailViewModel) {
         guard let localDatamanager else { return }
-        localDatamanager.saveFavoriteAd(ad)
+        localDatamanager.favoriteAdAction(ad)
     }
 }
 
 
 // Protocol: RemoteDataManager -> Interactor
 extension AdDetailInteractor: AdDetailRemoteDataManagerOutputProtocol { }
+
+
+// Protocol: LocalDataManager -> Interactor
+extension AdDetailInteractor: AdDetailLocalDataManagerOutputProtocol {
+    
+    func favoriteAdSaved() {
+        guard let presenter else { return }
+        presenter.favoriteAdSaved()
+    }
+    
+    func favoriteAdRemoved() {
+        guard let presenter else { return }
+        presenter.favoriteAdRemoved()
+    }
+}

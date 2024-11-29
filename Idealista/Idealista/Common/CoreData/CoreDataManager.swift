@@ -22,20 +22,47 @@ final class CoreDataManager {
 
     
     // MARK: - CRUD methods of ads list
+    // check if ad is favorite
+    func isFavoriteAdList(propertyCode: String) -> Bool {
+        let fetchRequest: NSFetchRequest<AdHomeList> = AdHomeList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "propertyCode == %@", propertyCode)
+        do {
+            let results = try context.fetch(fetchRequest)
+            return !results.isEmpty
+        } catch {
+            return false
+        }
+    }
+
+    
     // save a new ad
-    func saveAdList(newAd: HomeAdListViewModel) {
+    func saveAdList(newAd: HomeAdListViewModel, saved completion: (Bool) -> (Void)) {
         let ad = AdHomeList(context: self.context)
         ad.direction = newAd.direction
         ad.price = newAd.price
         ad.propertyCode = newAd.propertyCode
         ad.propertyType = newAd.propertyType
-        self.saveContext()
+        ad.dataSaved = Date()
+        do {
+            try self.context.save()
+            completion(true)
+        } catch {
+            completion(false)
+        }
     }
 
     // remove the selected ad
-    func removeAd(_ ad: AdHomeList) {
-        self.context.delete(ad)
-        self.saveContext()
+    func removeAdList(propertyCode: String, removed completion: (Bool) -> (Void)) {
+        let fetchRequest: NSFetchRequest<AdHomeList> = AdHomeList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "propertyCode == %@", propertyCode)
+        do {
+            guard let result = try self.context.fetch(fetchRequest).first else { return }
+            self.context.delete(result)
+            saveContext()
+            completion(true)
+        } catch {
+            completion(false)
+        }
     }
     
     // remove all ads
@@ -56,35 +83,56 @@ final class CoreDataManager {
 
 
     // fetch all ads
-    func fetchAds() -> [AdHomeList] {
+    func fetchAds() {
         let fetchRequest: NSFetchRequest<AdHomeList> = AdHomeList.fetchRequest()
         do {
             let ads = try self.context.fetch(fetchRequest)
             for ad in ads {
-                print(ad)
+                print("\n= = = = ")
+                print(ad.propertyCode!)
+                print("= = = = ")
             }
-            return ads
         } catch {
             print("Error fetch ads: \(error)")
-            return []
         }
     }
     
     
     // MARK: - CRUD methods of ad detail
+    // check if ad is favorite
+    func isFavoriteAdDetail(propertyCode: String) -> Bool {
+        let fetchRequest: NSFetchRequest<AdHomeDetail> = AdHomeDetail.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "adId == %@", propertyCode)
+        return (try? context.fetch(fetchRequest))?.isEmpty == false
+    }
+    
     // save a new detail ad
-    func saveAdDetail(newAd: HomeAdDetailViewModel) {
+    func saveAdDetail(newAd: HomeAdDetailViewModel, saved completion: (Bool) -> (Void)) {
         let ad = AdHomeDetail(context: self.context)
         ad.adId = Int16(newAd.adId)
         ad.price = newAd.price
         ad.propertyType = newAd.propertyType
-        self.saveContext()
+        ad.dataSaved = Date()
+        do {
+            try self.context.save()
+            completion(true)
+        } catch {
+            completion(false)
+        }
     }
     
     // remove the selected ad
-    func removeAd(_ ad: AdHomeDetail) {
-        self.context.delete(ad)
-        self.saveContext()
+    func removeAdDetail(propertyCode: String, removed completion: (Bool) -> (Void)) {
+        let fetchRequest: NSFetchRequest<AdHomeDetail> = AdHomeDetail.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "adId == %@", propertyCode)
+        do {
+            guard let result = try self.context.fetch(fetchRequest).first else { return }
+            self.context.delete(result)
+            saveContext()
+            completion(true)
+        } catch {
+            completion(false)
+        }
     }
     
     // remove all ads
