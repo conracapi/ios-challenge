@@ -73,7 +73,7 @@ final class AdDetailViewController: BaseViewController {
     
     private func configureFavoriteAdSavedView() {
         self.favoriteAdSavedView.layer.cornerRadius = 6
-        self.favoriteAdSavedView.backgroundColor = .black.withAlphaComponent(0.5)
+        self.favoriteAdSavedView.backgroundColor = .mainBackground.withAlphaComponent(0.5)
     }
     
     private func configureButtons() {
