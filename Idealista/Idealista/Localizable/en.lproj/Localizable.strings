@@ -21,4 +21,7 @@
 "without_box_room" = "Without box room";
 "saved" = "Saved:";
 "error" = "Ooops! An error has occurred";
+"number_of_rooms" = "Number of rooms";
+"number_of_bath" = "Number of bath";
+"community_costs" = "Community costs";
 

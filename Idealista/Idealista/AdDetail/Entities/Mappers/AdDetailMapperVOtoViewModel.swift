@@ -29,17 +29,14 @@ extension HomeAdDetailViewModel {
         self.location = CLLocation(latitude: vo.ubication.latitude, longitude: vo.ubication.longitude)
         self.multimedia = vo.multimedia.images.map { $0.url }
         self.propietaryDescription = vo.propertyComment
-        self.homeAdDescription = "Esta es la descrición de la casa."
         self.isFavorite = vo.isFavorite
         self.dateSavedAsFavorite = vo.dateSavedAsFavorite
-        /*let floor = "-  \(vo.floor)ª \(NSLocalizedString("floor", comment: ""))."
-        let size = "-  \(vo.size) m² \(NSLocalizedString("of_area", comment: ""))."
-        let rooms = "-  \(vo.rooms) \(NSLocalizedString("rooms", comment: ""))."
-        let bathrooms = "-  \(vo.bathrooms) \(NSLocalizedString("bathrooms", comment: ""))."
-        let exterior = vo.exterior ? "-  \(NSLocalizedString("with_exterior", comment: ""))." : "-  \(NSLocalizedString("without_exterior", comment: ""))."
-        let airConditioning = vo.features.hasAirConditioning ? "-  \(NSLocalizedString("with_air_conditioning", comment: ""))." : "-  \(NSLocalizedString("without_air_conditioning", comment: ""))."
-        let boxRoom = vo.features.hasBoxRoom ? "-  \(NSLocalizedString("with_box_room", comment: ""))." : "-  \(NSLocalizedString("without_box_room", comment: ""))."
-        self.additionalInfo = floor + "\n" + size + "\n" + rooms + "\n" + bathrooms + "\n" + exterior + "\n" + airConditioning + "\n" + boxRoom*/
+        let size = "-  \(vo.moreCharacteristics.constructedArea) m² \(NSLocalizedString("of_area", comment: ""))."
+        let rooms = "-  \(vo.moreCharacteristics.roomNumber) \(NSLocalizedString("rooms", comment: ""))."
+        let bathrooms = "-  \(vo.moreCharacteristics.bathNumber) \(NSLocalizedString("bathrooms", comment: ""))."
+        let exterior = vo.moreCharacteristics.exterior ? "-  \(NSLocalizedString("with_exterior", comment: ""))." : "-  \(NSLocalizedString("without_exterior", comment: ""))."
+        let boxRoom = vo.moreCharacteristics.boxroom ? "-  \(NSLocalizedString("with_box_room", comment: ""))." : "-  \(NSLocalizedString("without_box_room", comment: ""))."
+        self.homeAdDescription = size + "\n" + rooms + "\n" + bathrooms + "\n" + exterior + "\n" + boxRoom
     }
 }
 

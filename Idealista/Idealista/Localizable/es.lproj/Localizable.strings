@@ -21,3 +21,7 @@
 "without_box_room" = "Sin trastero";
 "saved" = "Guardado:";
 "error" = "Ooops! Un error ha ocurrido";
+"number_of_rooms" = "Número de habitaciones";
+"number_of_bath" = "Número de baños";
+"community_costs" = "Costes de comunidad";
+
